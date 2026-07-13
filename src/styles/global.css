@@ -265,13 +265,15 @@ footer.site a:hover{color:var(--honey)}
   .trust .wrap{gap:16px}
   .hero{padding:40px 0 60px}
   .pay{padding:26px}
-  body{padding-bottom:66px}
+  body{padding-bottom:78px}
   .mobile-call{
-    display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;
-    background:var(--honey);color:#fff;align-items:center;justify-content:center;gap:9px;
-    padding:16px;font-weight:700;font-size:1.05rem;box-shadow:0 -4px 20px rgba(15,23,42,.18);
-    font-family:'Open Sans',sans-serif;
+    display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;gap:10px;
+    padding:10px 12px;background:var(--white);border-top:1px solid var(--line);
+    box-shadow:0 -4px 20px rgba(15,23,42,.12);
   }
+  .mobile-call .btn{flex:1;justify-content:center;padding:14px 10px;font-size:1rem}
+  /* keep the outline button readable on the white bar */
+  .mobile-call .btn-ghost{background:var(--white)}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 :focus-visible{outline:3px solid var(--honey);outline-offset:2px;border-radius:4px}
