@@ -1,0 +1,100 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+import FinalCTA from '@components/FinalCTA.astro';
+import { site, services } from '@data/site';
+import { breadcrumb, service as serviceSchema } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { service: s.slug }, props: { service: s } }));
+}
+
+const { service } = Astro.props;
+const path = `/${service.slug}/`;
+const bookHref = site.bookUrl || '/contact-us/';
+
+// Three related services (wrap around the list).
+const idx = services.findIndex((s) => s.slug === service.slug);
+const related = [1, 2, 3].map((n) => services[(idx + n) % services.length]);
+
+const schema = [
+  breadcrumb([
+    { name: 'Home', path: '/' },
+    { name: service.title, path },
+  ]),
+  serviceSchema(service.h1, service.intro, path),
+];
+---
+<BaseLayout title={service.metaTitle} description={service.metaDescription} path={path} schema={schema}>
+  <div class="wrap">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="/#services">Services</a></li>
+        <li aria-current="page">{service.title}</li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <h1>{service.h1}</h1>
+      <p class="lede">{service.intro}</p>
+    </div>
+  </section>
+
+  <section style="padding-top:32px">
+    <div class="wrap split">
+      <div class="prose">
+        <div class="included">
+          <h2>What's included</h2>
+          <ul>
+            {service.included.map((i) => <li>{i}</li>)}
+          </ul>
+        </div>
+
+        {service.sections.map((sec) => (
+          <>
+            <h2>{sec.h}</h2>
+            {sec.p && <p>{sec.p}</p>}
+            {sec.list && <ul>{sec.list.map((li) => <li>{li}</li>)}</ul>}
+          </>
+        ))}
+
+        <h2>Why families choose Shiland</h2>
+        <p>Shiland Animal Hospital is an owner-operated practice open six days a week — including evenings and weekends — so you're not left waiting when your pet needs care. With an in-house lab, digital X-ray, and a surgical suite, we diagnose and treat many conditions right here in Rock Hill instead of referring you elsewhere.</p>
+        <ul>
+          <li>Owner-operated, personal care from Dr. Kadhim and team</li>
+          <li>Open evenings and weekends — walk-ins welcome</li>
+          <li>In-house lab and X-ray for same-visit answers</li>
+        </ul>
+        <p style="color:var(--muted);font-size:.95rem">Shiland Animal Hospital provides {service.title.toLowerCase()} for cats and dogs in {site.serviceAreaSentence}</p>
+
+        <h2>Related services</h2>
+        <div class="related-grid">
+          {related.map((r) => (
+            <a class="related" href={`/${r.slug}/`}>
+              <span class="r-ic"><Icon name={r.icon} size={22} /></span>{r.title}<span class="arr">→</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <aside>
+        <div class="side-card">
+          <h3>Talk to our team</h3>
+          <p>Call us with any question about {service.title.toLowerCase()} — or walk in. New patients always welcome.</p>
+          <div data-live-actions>
+            <a class="btn btn-call" href={site.phone.href} data-cta="call">
+              <Icon name="phone" size={16} class="i" />Call {site.phone.display}
+            </a>
+            <a class="btn btn-ghost" href={bookHref} data-cta="book">Book appointment</a>
+          </div>
+          <p class="side-note" id="finalStatus">Checking today's hours…</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <FinalCTA showStatus={false} />
+</BaseLayout>

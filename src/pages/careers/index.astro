@@ -1,0 +1,48 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+import { site } from '@data/site';
+import { breadcrumb } from '../../lib/schema';
+
+const path = '/careers/';
+const title = 'Careers | Join the Team at Shiland Animal Hospital, Rock Hill SC';
+const description =
+  'Interested in joining a growing, owner-operated veterinary team in Rock Hill, SC? Learn about careers at Shiland Animal Hospital and get in touch.';
+const schema = [breadcrumb([{ name: 'Home', path: '/' }, { name: 'Careers', path }])];
+---
+<BaseLayout title={title} description={description} path={path} schema={schema}>
+  <div class="wrap">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol><li><a href="/">Home</a></li><li aria-current="page">Careers</li></ol>
+    </nav>
+  </div>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <h1>Grow your career at Shiland</h1>
+      <p class="lede">We're an owner-operated, full-service veterinary hospital serving Rock Hill and Fort Mill. If you love animals and great medicine, we'd love to hear from you.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:32px">
+    <div class="wrap">
+      <div class="prose" style="max-width:70ch">
+        <h2>Why work here</h2>
+        <ul>
+          <li>A supportive, close-knit team that values good medicine</li>
+          <li>Modern in-house lab, digital X-ray, and surgical suite</li>
+          <li>A growing practice with room to learn and advance</li>
+          <li>A community-focused clinic where your work makes a real difference</li>
+        </ul>
+        <h2>Interested?</h2>
+        <p>We're always glad to meet talented, compassionate people — veterinary technicians, assistants, client-care team members, and more. Send us a note and tell us about yourself.</p>
+      </div>
+      <div class="hero-actions" style="margin-top:24px" data-live-actions>
+        <a class="btn btn-call btn-lg" href={`mailto:${site.email}?subject=Careers%20at%20Shiland`} data-cta="book">
+          <Icon name="mail" size={16} class="i" />Email us your resume
+        </a>
+        <a class="btn btn-ghost btn-lg" href={site.phone.href} data-cta="call">Call {site.phone.display}</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

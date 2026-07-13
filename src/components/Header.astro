@@ -1,0 +1,42 @@
+---
+import Icon from './Icon.astro';
+import { site } from '@data/site';
+
+const nav = [
+  { label: 'Services', href: '/#services' },
+  { label: 'Meet Dr. Kadhim', href: '/about-us/' },
+  { label: 'Urgent & Emergency', href: '/pet-emergency-care-rock-hill-fort-mill/' },
+  { label: 'Reviews', href: '/#reviews' },
+  { label: 'Contact', href: '/contact-us/' },
+];
+---
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="/" aria-label={`${site.name} — home`}>
+      <img class="brand-logo" src="/logo.webp" alt={site.name} width="680" height="303" />
+    </a>
+    <nav class="links" aria-label="Primary">
+      {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-ghost" href="/contact-us/">Book appointment</a>
+      <a class="btn btn-call" href={site.phone.href} data-cta="call">
+        <Icon name="phone" size={16} class="i" />Call {site.phone.display}
+      </a>
+      <button class="menu-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  (function () {
+    var btn = document.querySelector('.menu-toggle');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var l = document.querySelector('nav.links');
+      var open = l.style.display === 'flex';
+      btn.setAttribute('aria-expanded', String(!open));
+      l.style.cssText = open ? '' : 'display:flex;flex-direction:column;position:absolute;top:76px;left:0;right:0;background:var(--paper);padding:20px 24px;gap:16px;border-bottom:1px solid var(--line);box-shadow:var(--shadow-lg)';
+    });
+  })();
+</script>

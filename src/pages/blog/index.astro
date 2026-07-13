@@ -1,0 +1,47 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { breadcrumb } from '../../lib/schema';
+
+const path = '/blog/';
+const title = 'Blog | Pet Health Tips & News — Shiland Animal Hospital, Rock Hill SC';
+const description = 'Pet health tips, clinic news, and advice from the team at Shiland Animal Hospital in Rock Hill, SC.';
+const schema = [breadcrumb([{ name: 'Home', path: '/' }, { name: 'Blog', path }])];
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
+
+const fmtDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+---
+<BaseLayout title={title} description={description} path={path} schema={schema}>
+  <div class="wrap">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol><li><a href="/">Home</a></li><li aria-current="page">Blog</li></ol>
+    </nav>
+  </div>
+
+  <section class="page-hero">
+    <div class="wrap"><h1>From the Shiland blog</h1><p class="lede">Pet health tips, clinic news, and advice from our team.</p></div>
+  </section>
+
+  <section style="padding-top:32px">
+    <div class="wrap">
+      {posts.length === 0 ? (
+        <p class="empty-state">Posts are on the way — check back soon.</p>
+      ) : (
+        <div class="post-grid">
+          {posts.map((p) => (
+            <article class="post-card">
+              <div class="date">{fmtDate(p.data.pubDate)}</div>
+              <h2>{p.data.title}</h2>
+              <p>{p.data.description}</p>
+              <a class="more" href={`/blog/${p.id}/`}>Read more →</a>
+            </article>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>

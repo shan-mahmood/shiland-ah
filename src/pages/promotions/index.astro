@@ -1,0 +1,43 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+import { site } from '@data/site';
+import { breadcrumb } from '../../lib/schema';
+
+const path = '/promotions/';
+const title = 'Promotions | First Wellness Visit Free — Shiland Animal Hospital, Rock Hill SC';
+const description =
+  "New to Shiland Animal Hospital in Rock Hill, SC? Your pet's first wellness exam is free. Walk in or call (803) 752-4950 to claim it.";
+const schema = [breadcrumb([{ name: 'Home', path: '/' }, { name: 'Promotions', path }])];
+---
+<BaseLayout title={title} description={description} path={path} schema={schema}>
+  <div class="wrap">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol><li><a href="/">Home</a></li><li aria-current="page">Promotions</li></ol>
+    </nav>
+  </div>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <h1>Current promotions</h1>
+      <p class="lede">A little something to welcome you and your pet to the Shiland family.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:24px">
+    <div class="wrap">
+      <div class="final">
+        <h2>First wellness visit is on us.</h2>
+        <p>New to Shiland? Your pet's first wellness exam is <b style="color:#fff">free</b>. It's our way of introducing you to the practice and giving your pet a thorough, no-pressure checkup.</p>
+        <div class="hero-actions" data-live-actions>
+          <a class="btn btn-call btn-lg" href={site.phone.href} data-cta="call">
+            <Icon name="phone" size={16} class="i" />Claim your free first visit
+          </a>
+          <a class="btn btn-ghost btn-lg" href="/contact-us/" data-cta="book">Book appointment</a>
+        </div>
+        <div class="phone-big" id="finalStatus">Checking today's hours…</div>
+      </div>
+      <p style="color:var(--muted);margin-top:24px;max-width:64ch">Offer applies to your pet's first wellness exam as a new Shiland patient. Walk in or call ahead — mention the offer when you arrive.</p>
+    </div>
+  </section>
+</BaseLayout>

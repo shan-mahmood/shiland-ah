@@ -1,0 +1,32 @@
+---
+import Icon from './Icon.astro';
+import { site } from '@data/site';
+
+interface Props {
+  heading?: string;
+  text?: string;
+  showStatus?: boolean;
+}
+const {
+  heading = "Your pet doesn't have to wait.",
+  text = "Walk in, or call ahead and we'll be ready. New patients are always welcome at Shiland Animal Hospital.",
+  showStatus = true,
+} = Astro.props;
+
+const bookHref = site.bookUrl || '/contact-us/';
+---
+<section>
+  <div class="wrap">
+    <div class="final">
+      <h2>{heading}</h2>
+      <p>{text}</p>
+      <div class="hero-actions" data-live-actions>
+        <a class="btn btn-call btn-lg" href={site.phone.href} data-cta="call">
+          <Icon name="phone" size={16} class="i" />Call {site.phone.display}
+        </a>
+        <a class="btn btn-ghost btn-lg" href={bookHref} data-cta="book">Book appointment</a>
+      </div>
+      {showStatus && <div class="phone-big" id="finalStatus">Checking today's hours…</div>}
+    </div>
+  </div>
+</section>

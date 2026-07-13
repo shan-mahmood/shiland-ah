@@ -1,0 +1,59 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+import FinalCTA from '@components/FinalCTA.astro';
+import { site } from '@data/site';
+import { breadcrumb } from '../../lib/schema';
+
+const path = '/about-us/';
+const title = 'About Shiland Animal Hospital | Dr. Sabah Kadhim, Rock Hill SC';
+const description =
+  'Meet Dr. Sabah Kadhim and the team at Shiland Animal Hospital in Rock Hill, SC. Owner-operated, full-service veterinary care open six days a week since October 2024.';
+const schema = [breadcrumb([{ name: 'Home', path: '/' }, { name: 'About Us', path }])];
+---
+<BaseLayout title={title} description={description} path={path} schema={schema}>
+  <link slot="head" rel="preload" as="image" href="/dr-kadhim.webp" fetchpriority="high" />
+  <div class="wrap">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol><li><a href="/">Home</a></li><li aria-current="page">About Us</li></ol>
+    </nav>
+  </div>
+
+  <section id="doctor" style="padding-top:32px">
+    <div class="wrap doc-grid">
+      <div class="doc-photo">
+        <img src="/dr-kadhim.webp" alt="Dr. Sabah Kadhim, Owner and Veterinarian at Shiland Animal Hospital" width="760" height="611" fetchpriority="high" decoding="async" />
+      </div>
+      <div class="doc-body">
+        <span class="kicker">Meet your veterinarian</span>
+        <h1>{site.doctor.name}</h1>
+        <div class="doc-role">Owner &amp; Veterinarian · Serving Rock Hill since 2024</div>
+        <p>Dr. Kadhim opened Shiland Animal Hospital in October 2024 with one goal: give the pets of Rock Hill a place where experienced, personal care is available when families actually need it — not weeks out, and not only 9 to 5.</p>
+        <div class="doc-quote">"Your community is our community. We want to be here for you and your pets when you need us the most."</div>
+        <p>Shiland is equipped for soft-tissue and urgent surgery in-house — which is why the clinic handles many cases that other practices refer out.</p>
+        <div class="hero-actions" style="margin-top:26px" data-live-actions>
+          <a class="btn btn-call" href={site.phone.href} data-cta="call">
+            <Icon name="phone" size={16} class="i" />Call the clinic
+          </a>
+          <a class="btn btn-ghost" href="/contact-us/" data-cta="book">Book appointment</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">Our story</span>
+        <h2>Full-service care, built around real life.</h2>
+      </div>
+      <div class="prose" style="max-width:72ch">
+        <p>Shiland Animal Hospital is a locally owned, full-service veterinary practice serving Rock Hill, Fort Mill, and the surrounding communities. Since opening in October 2024, we've focused on one thing above all: being here when your pet needs us.</p>
+        <p>That means open six days a week, including evenings and weekends, with walk-ins welcome and same-day appointments available. It means an in-house lab, digital X-ray, and a surgical suite, so we can diagnose quickly and treat many conditions on-site — from wellness care to dentistry to emergency surgery.</p>
+        <p>Most of all, it means personal care. When you come to Shiland, you and your pet are treated like part of the community — because you are.</p>
+      </div>
+    </div>
+  </section>
+
+  <FinalCTA heading="Come meet the team." text="Walk in, or call ahead and we'll be ready. New patients are always welcome at Shiland Animal Hospital." />
+</BaseLayout>

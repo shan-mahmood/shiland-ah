@@ -1,0 +1,118 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+import { site, hoursDisplay, services } from '@data/site';
+import { breadcrumb } from '../../lib/schema';
+
+const path = '/contact-us/';
+const title = 'Contact Shiland Animal Hospital | Rock Hill, SC — (803) 752-4950';
+const description =
+  'Contact Shiland Animal Hospital in Rock Hill, SC. Call (803) 752-4950, request an appointment, or get directions. Open six days a week, walk-ins welcome.';
+const schema = [breadcrumb([{ name: 'Home', path: '/' }, { name: 'Contact Us', path }])];
+
+// Formspree endpoint — set PUBLIC_FORMSPREE_ID at build time.
+const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID || 'your-form-id';
+const formAction = `https://formspree.io/f/${formspreeId}`;
+---
+<BaseLayout title={title} description={description} path={path} schema={schema}>
+  <div class="wrap">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol><li><a href="/">Home</a></li><li aria-current="page">Contact Us</li></ol>
+    </nav>
+  </div>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <h1>Contact Shiland Animal Hospital</h1>
+      <p class="lede">Call us for the fastest response, or send an appointment request and we'll get back to you. Walk-ins are always welcome.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:32px">
+    <div class="wrap split">
+      <div>
+        <form class="form-card" action={formAction} method="POST" id="contact" data-analytics-form>
+          <div class="field-row">
+            <div class="field">
+              <label for="name">Your name</label>
+              <input id="name" name="name" type="text" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" required />
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required />
+            </div>
+            <div class="field">
+              <label for="pet">Pet's name</label>
+              <input id="pet" name="pet_name" type="text" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="reason">Reason for visit</label>
+            <select id="reason" name="reason">
+              <option value="">Select one…</option>
+              <option>Wellness exam / new patient</option>
+              <option>Vaccines</option>
+              <option>Sick or urgent visit</option>
+              <option>Surgery / spay & neuter</option>
+              <option>Dental</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="window">Preferred day/time window</label>
+            <input id="window" name="preferred_window" type="text" placeholder="e.g. Weekday evenings, Saturday morning" />
+          </div>
+          <div class="field">
+            <label for="message">Anything else?</label>
+            <textarea id="message" name="message"></textarea>
+          </div>
+          <label class="consent">
+            <input type="checkbox" name="sms_consent" value="yes" />
+            <span>By checking this box, I agree to receive appointment-related text messages from Shiland Animal Hospital. Message and data rates may apply. Reply STOP to unsubscribe at any time.</span>
+          </label>
+          <!-- honeypot: bots fill this, humans don't -->
+          <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <input type="hidden" name="_subject" value="New appointment request — shilandah.com" />
+          <button class="btn btn-call btn-lg" type="submit" style="width:100%;justify-content:center">
+            <Icon name="mail" size={16} class="i" />Send request
+          </button>
+          <p class="form-note">This form is for non-emergencies. For an urgent or emergency situation, please call <a href={site.phone.href} data-cta="call">{site.phone.display}</a> or come in.</p>
+        </form>
+      </div>
+
+      <aside>
+        <div class="side-card" style="position:static">
+          <h2>Reach us directly</h2>
+          <ul class="info-list">
+            <li><span class="ic"><Icon name="phone" size={20} /></span><div><b>Phone</b><a href={site.phone.href} data-cta="call">{site.phone.display}</a></div></li>
+            <li><span class="ic"><Icon name="mail" size={20} /></span><div><b>Email</b><a href={`mailto:${site.email}`}>{site.email}</a></div></li>
+            <li><span class="ic"><Icon name="pin" size={20} /></span><div><b>Address</b><span>{site.address.street}<br>{site.address.locality}, {site.address.region} {site.address.postalCode}</span></div></li>
+            <li><span class="ic"><Icon name="clock" size={20} /></span><div><b>Status</b><span id="cardState">Checking hours…</span></div></li>
+          </ul>
+          <a class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:18px" href={site.links.directions} target="_blank" rel="noopener" data-directions>Get directions</a>
+
+          <h3 style="font-family:'Open Sans',sans-serif;font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:24px 0 12px;font-weight:600">Hours</h3>
+          <ul class="foot-hours" style="color:var(--ink)">
+            {hoursDisplay.map((h) => (
+              <li style="justify-content:space-between"><span>{h.day}</span><span style={h.closed ? 'color:var(--urgent)' : ''}>{h.hours}</span></li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="map-frame" style="min-height:420px">
+        <iframe title="Shiland Animal Hospital location" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src={site.links.mapEmbed} style="min-height:420px"></iframe>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

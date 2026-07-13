@@ -1,0 +1,57 @@
+---
+import Icon from './Icon.astro';
+import { site, hoursDisplay } from '@data/site';
+
+const year = 2026;
+const explore = [
+  { label: 'About Us', href: '/about-us/' },
+  { label: 'Services', href: '/#services' },
+  { label: 'Promotions', href: '/promotions/' },
+  { label: 'Payment Plans', href: '/payment-plans/' },
+  { label: 'Careers', href: '/careers/' },
+  { label: 'Blog', href: '/blog/' },
+];
+---
+<footer class="site" id="hours-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <img class="foot-logo" src="/logo-white.webp" alt={site.name} style="height:56px;width:auto;margin-bottom:16px" width="116" height="56" />
+        <p style="max-width:34ch;color:#C2DCD3">Full-service, owner-operated veterinary care for the pets of Rock Hill and Fort Mill, SC.</p>
+        <a class="btn btn-call" style="margin-top:18px" href={site.phone.href} data-cta="call">
+          <Icon name="phone" size={16} class="i" />{site.phone.display}
+        </a>
+      </div>
+      <div>
+        <h2>Visit</h2>
+        <ul class="foot-list">
+          <li><a href={site.links.directions} target="_blank" rel="noopener" data-directions set:html={`${site.address.streetShort}<br>${site.address.locality}, ${site.address.region} ${site.address.postalCode}`}></a></li>
+          <li><a href={site.phone.href} data-cta="call">{site.phone.display}</a></li>
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Hours</h2>
+        <ul class="foot-hours">
+          {hoursDisplay.map((h) => (
+            <li><span>{h.day}</span><span class={h.closed ? 'cl' : ''}>{h.hours}</span></li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2>Explore</h2>
+        <ul class="foot-list">
+          {explore.map((e) => <li><a href={e.href}>{e.label}</a></li>)}
+          <li><a href="/privacy-policy/">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© {year} {site.name}. All rights reserved.</span>
+      <div class="foot-social">
+        <a href={site.links.facebook} target="_blank" rel="noopener" aria-label="Facebook">f</a>
+        <a href={site.links.instagram} target="_blank" rel="noopener" aria-label="Instagram">◎</a>
+      </div>
+    </div>
+  </div>
+</footer>

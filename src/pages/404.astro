@@ -1,0 +1,25 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+import { site } from '@data/site';
+---
+<BaseLayout title="Page not found | Shiland Animal Hospital" description="The page you're looking for couldn't be found." path="/404/" noindex={true}>
+  <section class="notfound">
+    <div class="wrap">
+      <h1>404</h1>
+      <p>We couldn't find that page — but we're still here for your pet.</p>
+      <div class="hero-actions" style="justify-content:center">
+        <a class="btn btn-call btn-lg" href={site.phone.href} data-cta="call">
+          <Icon name="phone" size={16} class="i" />Call {site.phone.display}
+        </a>
+        <a class="btn btn-ghost btn-lg" href="/">Back to home</a>
+      </div>
+      <p style="margin-top:30px">
+        <a href="/#services" style="color:var(--pine);font-weight:600">Services</a> ·
+        <a href="/about-us/" style="color:var(--pine);font-weight:600">About</a> ·
+        <a href="/contact-us/" style="color:var(--pine);font-weight:600">Contact</a> ·
+        <a href="/promotions/" style="color:var(--pine);font-weight:600">Promotions</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

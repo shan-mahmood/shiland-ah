@@ -1,0 +1,67 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import FinalCTA from '@components/FinalCTA.astro';
+import { breadcrumb } from '../../lib/schema';
+
+const path = '/payment-plans/';
+const title = 'Pet Care Payment Plans | Cherry, CareCredit & Scratchpay — Shiland Animal Hospital';
+const description =
+  'Flexible pet care financing in Rock Hill, SC. Shiland Animal Hospital accepts Cherry, CareCredit, and Scratchpay so cost never stands between your pet and care.';
+const schema = [breadcrumb([{ name: 'Home', path: '/' }, { name: 'Payment Plans', path }])];
+
+const options = [
+  {
+    name: 'Cherry',
+    blurb: 'Simple monthly payment plans with a quick application and instant decision — no hard credit check to see if you qualify.',
+    url: 'https://withcherry.com/',
+    cta: 'Learn about Cherry',
+  },
+  {
+    name: 'CareCredit',
+    blurb: 'A healthcare credit card you can use for veterinary care and beyond, with promotional financing options on qualifying purchases.',
+    url: 'https://www.carecredit.com/apply/',
+    cta: 'Apply with CareCredit',
+  },
+  {
+    name: 'Scratchpay',
+    blurb: 'Friendly, transparent payment plans designed for veterinary care. Checking your rate takes minutes and won\'t affect your credit score.',
+    url: 'https://scratchpay.com/',
+    cta: 'Check your rate',
+  },
+];
+---
+<BaseLayout title={title} description={description} path={path} schema={schema}>
+  <div class="wrap">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol><li><a href="/">Home</a></li><li aria-current="page">Payment Plans</li></ol>
+    </nav>
+  </div>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <h1>Care now, pay over time.</h1>
+      <p class="lede">We never want cost to stand between your pet and the care they need. Shiland Animal Hospital accepts three trusted financing partners — choose the one that fits you best.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:32px">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">Financing partners</span>
+        <h2>Choose the option that fits you</h2>
+      </div>
+      <div class="pillars">
+        {options.map((o) => (
+          <div class="pillar">
+            <h3>{o.name}</h3>
+            <p>{o.blurb}</p>
+            <a href={o.url} target="_blank" rel="noopener">{o.cta} →</a>
+          </div>
+        ))}
+      </div>
+      <p style="color:var(--muted);margin-top:28px;max-width:70ch">Have questions about which option is right for you? Call us at <a href="tel:+18037524950" data-cta="call" style="color:var(--pine);font-weight:600">(803) 752-4950</a> and our team will walk you through it.</p>
+    </div>
+  </section>
+
+  <FinalCTA heading="Questions about payment options?" text="Call and our team will help you find a plan that works. New patients always welcome." />
+</BaseLayout>

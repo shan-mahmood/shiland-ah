@@ -1,0 +1,48 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import FinalCTA from '@components/FinalCTA.astro';
+import { getCollection, render } from 'astro:content';
+import { breadcrumb } from '../../../lib/schema';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const path = `/blog/${post.id}/`;
+const schema = [
+  breadcrumb([
+    { name: 'Home', path: '/' },
+    { name: 'Blog', path: '/blog/' },
+    { name: post.data.title, path },
+  ]),
+];
+const fmtDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+---
+<BaseLayout title={`${post.data.title} | Shiland Animal Hospital`} description={post.data.description} path={path} schema={schema}>
+  <div class="wrap">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol><li><a href="/">Home</a></li><li><a href="/blog/">Blog</a></li><li aria-current="page">{post.data.title}</li></ol>
+    </nav>
+  </div>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <h1>{post.data.title}</h1>
+      <p class="lede" style="font-size:.95rem">{fmtDate(post.data.pubDate)}</p>
+    </div>
+  </section>
+
+  <section style="padding-top:24px">
+    <div class="wrap">
+      <article class="prose">
+        <Content />
+      </article>
+    </div>
+  </section>
+
+  <FinalCTA showStatus={false} />
+</BaseLayout>

@@ -1,0 +1,119 @@
+---
+import '@styles/global.css';
+import TopBar from '@components/TopBar.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import MobileCallBar from '@components/MobileCallBar.astro';
+import LiveStatus from '@components/LiveStatus.astro';
+import { site } from '@data/site';
+import { localBusiness, graph } from '../lib/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Route path for canonical + OG url, e.g. "/about-us/". */
+  path: string;
+  /** OG image path under public/, defaults to hero photo. */
+  image?: string;
+  /** Extra JSON-LD graph nodes (breadcrumb, service, etc.). */
+  schema?: object[];
+  noindex?: boolean;
+}
+
+const { title, description, path, image = '/hero-photo.jpg', schema = [], noindex = false } = Astro.props;
+
+const ORIGIN = 'https://shilandah.com';
+const canonical = `${ORIGIN}${path}`;
+const ogImage = `${ORIGIN}${image}`;
+
+// Site-wide business node always present; pages append their own nodes.
+const jsonld = graph([localBusiness(), ...schema]);
+
+// Analytics gated by env so staging/preview doesn't pollute production data.
+// Set PUBLIC_ANALYTICS=on at cutover.
+const analyticsOn = import.meta.env.PUBLIC_ANALYTICS === 'on';
+const { gtm } = site.analytics;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  {noindex && <meta name="robots" content="noindex,nofollow" />}
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content={site.name} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={ogImage} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+
+  <!-- Fonts — loaded non-render-blocking (preload as style, swap to stylesheet on load) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" />
+  </noscript>
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#15594B" />
+
+
+  <!-- Per-page head additions (e.g. LCP image preload) -->
+  <slot name="head" />
+
+  <!-- Structured data: LocalBusiness + page nodes -->
+  <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
+
+  {analyticsOn && (
+    <script is:inline set:html={`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtm}');`} />
+  )}
+</head>
+<body>
+  {analyticsOn && (
+    <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${gtm}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  )}
+  <a class="skip-link" href="#main">Skip to content</a>
+  <TopBar />
+  <Header />
+  <main id="main">
+    <slot />
+  </main>
+  <Footer />
+  <MobileCallBar />
+  <LiveStatus />
+
+  <!-- Conversion event tracking (works whether GTM/gtag is live or not) -->
+  <script is:inline>
+    (function () {
+      window.dataLayer = window.dataLayer || [];
+      function track(event, params) { window.dataLayer.push(Object.assign({ event: event }, params || {})); }
+      document.addEventListener('click', function (e) {
+        var t = e.target.closest('a,button');
+        if (!t) return;
+        var href = t.getAttribute('href') || '';
+        if (t.matches('[data-cta="call"]') || href.indexOf('tel:') === 0) track('click_to_call', { link_url: href });
+        else if (t.matches('[data-cta="book"]')) track('book_appointment_click', { link_url: href });
+        else if (t.matches('[data-directions]')) track('directions_click', { link_url: href });
+      });
+      document.addEventListener('submit', function (e) {
+        if (e.target.matches('[data-analytics-form]')) track('form_submit', { form_id: e.target.id || 'contact' });
+      });
+    })();
+  </script>
+</body>
+</html>

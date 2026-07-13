@@ -1,0 +1,7 @@
+---
+import Icon from './Icon.astro';
+import { site } from '@data/site';
+---
+<a class="mobile-call" href={site.phone.href} data-cta="call">
+  <Icon name="phone" size={16} class="i" />Call Shiland — {site.phone.display}
+</a>

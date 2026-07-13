@@ -1,0 +1,50 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { site } from '@data/site';
+import { breadcrumb } from '../../lib/schema';
+
+const path = '/privacy-policy/';
+const title = 'Privacy Policy | Shiland Animal Hospital, Rock Hill SC';
+const description = 'Privacy policy for Shiland Animal Hospital, including how we handle contact form and SMS information.';
+const schema = [breadcrumb([{ name: 'Home', path: '/' }, { name: 'Privacy Policy', path }])];
+const updated = 'July 2026';
+---
+<BaseLayout title={title} description={description} path={path} schema={schema} noindex={true}>
+  <div class="wrap">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol><li><a href="/">Home</a></li><li aria-current="page">Privacy Policy</li></ol>
+    </nav>
+  </div>
+
+  <section class="page-hero">
+    <div class="wrap"><h1>Privacy Policy</h1><p class="lede">Last updated: {updated}</p></div>
+  </section>
+
+  <section style="padding-top:24px">
+    <div class="wrap">
+      <div class="prose" style="max-width:74ch">
+        <p>Shiland Animal Hospital ("we," "us," or "our") respects your privacy. This policy explains what information we collect through this website and how we use it.</p>
+
+        <h2>Information we collect</h2>
+        <p>When you submit our contact or appointment-request form, we collect the information you provide — such as your name, phone number, email address, your pet's name, and the details of your request. We use this information solely to respond to you and to schedule and provide veterinary care.</p>
+
+        <h2>Text messaging (SMS)</h2>
+        <p>If you opt in by checking the SMS consent box on our form, you agree to receive appointment-related text messages from Shiland Animal Hospital. Message frequency varies. Message and data rates may apply. You can opt out at any time by replying <b>STOP</b> to any message; reply <b>HELP</b> for help. Consent to receive text messages is not a condition of any purchase or service.</p>
+        <p>Mobile information will not be shared with third parties or affiliates for marketing or promotional purposes. Text messaging originator opt-in data and consent are not shared with any third parties.</p>
+
+        <h2>How we use your information</h2>
+        <ul>
+          <li>To respond to your inquiries and requests</li>
+          <li>To schedule appointments and provide veterinary services</li>
+          <li>To send appointment reminders and related communications you've opted into</li>
+        </ul>
+
+        <h2>Analytics</h2>
+        <p>We use standard website analytics (such as Google Analytics) to understand how visitors use our site and to improve it. This may involve cookies and similar technologies that collect anonymized usage data.</p>
+
+        <h2>Contact</h2>
+        <p>Questions about this policy? Call us at <a href={site.phone.href}>{site.phone.display}</a> or email <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

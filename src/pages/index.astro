@@ -1,0 +1,258 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+import FinalCTA from '@components/FinalCTA.astro';
+import { site, services } from '@data/site';
+
+const bookHref = site.bookUrl || '/contact-us/';
+const title = 'Shiland Animal Hospital | Veterinarian in Rock Hill, SC — Walk-ins & Same-Day Care';
+const description =
+  'Owner-operated veterinarian in Rock Hill, SC. Open 6 days a week including evenings and weekends. Walk-ins welcome, same-day appointments, in-house emergency surgery. Call (803) 752-4950.';
+---
+<BaseLayout title={title} description={description} path="/">
+  <link slot="head" rel="preload" as="image" href="/hero-photo.webp" fetchpriority="high" />
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="dot" id="heroDot"></span><span class="mono" id="heroStatusText">Checking hours…</span></span>
+        <h1 class="hero-title">When your pet needs a vet, we're <em>open and ready</em> in Rock Hill.</h1>
+        <p class="hero-sub">Owner-operated care six days a week — including evenings and weekends. Walk in, or call ahead and we'll be ready when you arrive.</p>
+        <div class="hero-actions" data-live-actions>
+          <a class="btn btn-call btn-lg" href={site.phone.href} data-cta="call">
+            <Icon name="phone" size={16} class="i" />Call {site.phone.display}
+          </a>
+          <a class="btn btn-ghost btn-lg" href={bookHref} data-cta="book">Book appointment</a>
+        </div>
+        <p class="hero-note"><strong>Walk-ins welcome.</strong>&nbsp;Same-day appointments available. New patients accepted.</p>
+        <p class="hero-rating"><span class="g-stars">★★★★★</span> <b>{site.rating.value}</b> · Rated <b>{site.rating.label}</b> by {site.rating.count} clients on Google</p>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-photo">
+          <img src="/hero-photo.webp" alt="A veterinary team caring for a pet at Shiland Animal Hospital in Rock Hill, SC" width="800" height="978" fetchpriority="high" decoding="async" />
+        </div>
+        <div class="g-badge">
+          <div class="g-badge-top"><Icon name="google" size={20} /><b>Google</b>&nbsp;Reviews</div>
+          <div class="g-badge-score"><span class="num">{site.rating.value}</span><span class="g-stars">★★★★★</span></div>
+          <div class="g-badge-sub"><b>{site.rating.label}</b> · {site.rating.count} reviews</div>
+        </div>
+        <div class="status-card">
+          <div class="row">
+            <div>
+              <div class="label">Right now</div>
+              <div class="state" id="cardState">—</div>
+            </div>
+            <span class="dot" id="cardDot"></span>
+          </div>
+          <div class="todays" id="cardTodays">Today's hours: —</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TRUST STRIP ============ -->
+  <div class="trust">
+    <div class="wrap">
+      <div class="trust-item trust-rating"><span class="tstars">★★★★★</span><span><b>{site.rating.value} on Google</b> · {site.rating.count} reviews</span></div>
+      <div class="trust-item"><span class="ic"><Icon name="flask" /></span><span><b>In-house lab &amp; X-ray</b> · fast diagnosis</span></div>
+      <div class="trust-item"><span class="ic"><Icon name="calendar" /></span><span><b>Open 6 days</b> · evenings &amp; weekends</span></div>
+      <div class="trust-item"><span class="ic"><Icon name="pulse" /></span><span><b>Emergency surgery</b> on-site</span></div>
+    </div>
+  </div>
+
+  <!-- ============ PILLARS ============ -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">Why Shiland</span>
+        <h2>Care that fits real life with a pet.</h2>
+        <p>Pets don't get sick on a schedule. We built the practice around being reachable when you actually need us.</p>
+      </div>
+      <div class="pillars">
+        <div class="pillar">
+          <div class="p-ic"><Icon name="arrow" size={38} /></div>
+          <h3>Walk-ins welcome</h3>
+          <p>No appointment? Come in. A quick call ahead lets our team prepare, but you never need one to be seen.</p>
+          <a href={site.phone.href} data-cta="call">Call before you come →</a>
+        </div>
+        <div class="pillar">
+          <div class="p-ic"><Icon name="moon" size={38} /></div>
+          <h3>Evenings &amp; weekends</h3>
+          <p>Open until 7 PM on weekdays and until 8 PM Saturday and Sunday, so care doesn't have to wait for Monday.</p>
+          <a href="#hours-foot">See full hours →</a>
+        </div>
+        <div class="pillar">
+          <div class="p-ic"><Icon name="bolt" size={38} /></div>
+          <h3>Same-day &amp; urgent</h3>
+          <p>Sudden illness or injury? We keep same-day slots open and treat urgent cases quickly and compassionately.</p>
+          <a href="/pet-urgent-care-rock-hill-fort-mill/">Urgent care details →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES (geo URLs preserved) ============ -->
+  <section id="services">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">Full-service care</span>
+        <h2>Everything your cat or dog needs, under one roof.</h2>
+        <p>From first puppy shots to senior care, dentistry, and emergency surgery — comprehensive medicine for every stage of life.</p>
+      </div>
+      <div class="svc-grid">
+        {services.map((s) => (
+          <a class="svc" href={`/${s.slug}/`}><span class="s-ic"><Icon name={s.icon} size={20} /></span>{s.title}<span class="arr">→</span></a>
+        ))}
+      </div>
+      <div class="svc-foot">
+        <span>Not sure what your pet needs? We'll help you figure it out.</span>
+        <a class="btn btn-call" href={site.phone.href} data-cta="call">
+          <Icon name="phone" size={16} class="i" />Call and ask
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DOCTOR — protagonist ============ -->
+  <section id="doctor">
+    <div class="wrap doc-grid">
+      <div class="doc-photo">
+        <img src="/dr-kadhim.webp" alt="Dr. Sabah Kadhim, Owner and Veterinarian at Shiland Animal Hospital" width="760" height="611" loading="lazy" decoding="async" />
+      </div>
+      <div class="doc-body">
+        <span class="kicker">Meet your veterinarian</span>
+        <h2>{site.doctor.name}</h2>
+        <div class="doc-role">Owner &amp; Veterinarian · Serving Rock Hill since 2024</div>
+        <p>Dr. Kadhim opened Shiland Animal Hospital in October 2024 with one goal: give the pets of Rock Hill a place where experienced, personal care is available when families actually need it — not weeks out, and not only 9 to 5.</p>
+        <div class="doc-quote">"Your community is our community. We want to be here for you and your pets when you need us the most."</div>
+        <p>Shiland is equipped for soft-tissue and urgent surgery in-house — which is why the clinic handles many cases that other practices refer out.</p>
+        <div class="hero-actions" style="margin-top:26px" data-live-actions>
+          <a class="btn btn-call" href={site.phone.href} data-cta="call">
+            <Icon name="phone" size={16} class="i" />Call the clinic
+          </a>
+          <a class="btn btn-ghost" href="/about-us/" data-cta="book">More about Dr. Kadhim</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ URGENT / EMERGENCY capability ============ -->
+  <section id="urgent">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">When every minute matters</span>
+        <h2>An injured or very sick pet? Call us first.</h2>
+        <p>With an in-house lab and advanced X-ray, we diagnose fast and act faster. Our facility is equipped for emergency surgery for cats and dogs — so in many cases, your pet can be treated right here.</p>
+      </div>
+      <div class="urgent-grid">
+        <div class="urgent-card">
+          <h3>Emergency surgeries we perform on-site</h3>
+          <ul class="cap-list">
+            <li>Exploratory surgery</li>
+            <li>Foreign body removal</li>
+            <li>Splenectomy</li>
+            <li>C-sections</li>
+            <li>Laceration repair</li>
+            <li>Pyometra surgery</li>
+          </ul>
+          <p style="margin-top:22px;color:var(--muted);font-size:.92rem">Call ahead if you can — even a two-minute heads-up lets our team prepare before you arrive.</p>
+        </div>
+        <div>
+          <h3 style="font-family:'Nunito',sans-serif;font-size:1.6rem;margin-bottom:14px">Fast, compassionate, and close to home</h3>
+          <p style="color:#3D4A43;font-size:1.06rem;margin-bottom:18px">You shouldn't have to drive to Charlotte and wait hours in an ER when your pet is hurting. We treat urgent and emergency cases six days a week, right here in Rock Hill.</p>
+          <a class="btn btn-call btn-lg" href={site.phone.href} data-cta="call">
+            <Icon name="phone" size={16} class="i" />{site.phone.display}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROMO BANNER (approved) ============ -->
+  <section style="padding-top:0"><div class="wrap"><div class="final" style="border-radius:20px;padding:44px 32px">
+    <h2 style="font-size:2rem">First wellness visit is on us.</h2>
+    <p>New to Shiland? Your pet's first wellness exam is <b style="color:#fff">free</b>. Walk in or call to claim it.</p>
+    <div class="hero-actions"><a class="btn btn-call btn-lg" href={site.phone.href} data-cta="call">
+      <Icon name="phone" size={16} class="i" />Claim your free first visit
+    </a></div>
+  </div></div></section>
+
+  <!-- ============ REVIEWS ============ -->
+  <section id="reviews">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">Rated Excellent · {site.rating.count} Google reviews</span>
+        <h2>Rock Hill trusts us with their family.</h2>
+      </div>
+      <div class="rating-summary">
+        <div class="rs-left">
+          <div class="rs-num">{site.rating.value}</div>
+          <div class="rs-meta">
+            <div class="g-stars">★★★★★</div>
+            <div class="rs-count">Based on <b>{site.rating.count}</b> Google reviews</div>
+          </div>
+        </div>
+        <div class="rs-badge"><Icon name="google" size={20} />EXCELLENT</div>
+      </div>
+      <div class="rev-grid">
+        <div class="rev">
+          <div class="stars">★★★★★</div>
+          <p>"Lovely staff, punctual, knowledgeable and above all, nice. Obi-Wan was surprisingly more at ease compared to the times we took him to other vets."</p>
+          <div class="who"><span class="av">C</span><div><b>Cindy H.</b><small>Google review</small></div></div>
+        </div>
+        <div class="rev">
+          <div class="stars">★★★★★</div>
+          <p>"Had an emergency with our dog. This facility was caring not only for our pet but for me and my wife. Thanks for everything y'all did for us!"</p>
+          <div class="who"><span class="av">D</span><div><b>Donnie H.</b><small>Google review</small></div></div>
+        </div>
+        <div class="rev">
+          <div class="stars">★★★★★</div>
+          <p>"We walked in without an appointment and our fur baby still got the help she needed. We appreciate the attention, care, and how quickly we got helped."</p>
+          <div class="who"><span class="av">B</span><div><b>Besy J.</b><small>Google review</small></div></div>
+        </div>
+      </div>
+      <div class="rev-cta">
+        <a class="btn btn-ghost btn-lg" href={site.links.googleReview} target="_blank" rel="noopener">Read all {site.rating.count} reviews on Google</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PAYMENT ============ -->
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="pay">
+        <div class="pay-txt">
+          <h3>Care now, pay over time.</h3>
+          <p>We accept <b>Cherry</b>, <b>CareCredit</b>, and <b>Scratchpay</b> — flexible payment plans so cost never stands between your pet and the care they need.</p>
+        </div>
+        <div class="pay-logos">
+          <a href="/payment-plans/"><span>Cherry</span></a>
+          <a href="https://www.carecredit.com/" target="_blank" rel="noopener"><span>CareCredit</span></a>
+          <a href="https://scratchpay.com/" target="_blank" rel="noopener"><span>Scratchpay</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICE AREA + MAP ============ -->
+  <section style="padding-top:0">
+    <div class="wrap area-grid">
+      <div class="area-body">
+        <span class="kicker">Where we care for pets</span>
+        <h2 style="font-size:clamp(1.8rem,3.2vw,2.3rem)">Serving Rock Hill, Fort Mill &amp; nearby communities.</h2>
+        <p style="color:var(--muted);margin-top:14px">Families across York and Lancaster counties — and the greater Charlotte area — come to Shiland for reliable, six-days-a-week care.</p>
+        <div class="chips">
+          {site.serviceArea.map((c) => <span class="chip">{c}</span>)}
+        </div>
+        <a class="btn btn-ghost" style="margin-top:24px" href={site.links.directions} target="_blank" rel="noopener" data-directions>Get directions</a>
+      </div>
+      <div class="map-frame">
+        <iframe title="Shiland Animal Hospital location" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src={site.links.mapEmbed}></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <FinalCTA />
+</BaseLayout>

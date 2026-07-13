@@ -1,0 +1,110 @@
+---
+/**
+ * Live "Open now / Closed" status, computed in the clinic timezone
+ * (America/New_York) from the real hours. Availability is the clinic's edge,
+ * so it leads the page.
+ *
+ * Renders no markup itself — it drives any of these elements if present:
+ *   #topStatusText #topDot  (top bar)
+ *   #heroStatusText #heroDot (hero eyebrow)
+ *   #cardState #cardTodays #cardDot (hero status card)
+ *   #finalStatus (final CTA)
+ *
+ * TWO-TRACK: when CLOSED, it promotes the "Book online" CTA inside any
+ * [data-live-actions] group to primary, since the phone won't be answered.
+ */
+import { hours, site } from '@data/site';
+
+const bookUrl = site.bookUrl;
+---
+
+<script is:inline define:vars={{ HOURS: hours.map((h) => (h ? { o: h.open, c: h.close } : null)), BOOK_URL: bookUrl }}>
+  (function () {
+    var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    function fmt(h) {
+      var ampm = h >= 12 ? 'PM' : 'AM';
+      var hr = h % 12; if (hr === 0) hr = 12;
+      var min = Math.round((h - Math.floor(h)) * 60);
+      return hr + (min ? ':' + String(min).padStart(2, '0') : '') + ' ' + ampm;
+    }
+
+    function nowET() {
+      var parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/New_York', weekday: 'short', hour: 'numeric', minute: 'numeric', hour12: false,
+      }).formatToParts(new Date());
+      var wd = parts.find(function (p) { return p.type === 'weekday'; }).value;
+      var hour = parseInt(parts.find(function (p) { return p.type === 'hour'; }).value, 10);
+      if (hour === 24) hour = 0;
+      var min = parseInt(parts.find(function (p) { return p.type === 'minute'; }).value, 10);
+      var map = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+      return { day: map[wd], t: hour + min / 60 };
+    }
+
+    function nextOpen(day) {
+      for (var i = 1; i <= 7; i++) {
+        var d = (day + i) % 7;
+        if (HOURS[d]) return { day: d, o: HOURS[d].o, todayOffset: i };
+      }
+      return null;
+    }
+
+    function compute() {
+      var n = nowET(), today = HOURS[n.day], open = false, stateTxt = '', shortTxt = '', todaysTxt = '';
+      if (today) {
+        todaysTxt = 'Today: ' + fmt(today.o) + ' – ' + fmt(today.c);
+        if (n.t >= today.o && n.t < today.c) {
+          open = true;
+          stateTxt = 'Open now';
+          shortTxt = 'Open now · closes ' + fmt(today.c);
+        }
+      } else {
+        todaysTxt = 'Today: Closed';
+      }
+      if (!open) {
+        var nx = nextOpen(n.day);
+        var when = DAYS[nx.day];
+        if (nx.todayOffset === 1) when = 'tomorrow';
+        if (today && n.t < today.o) { when = 'today'; nx.o = today.o; }
+        stateTxt = 'Closed now';
+        shortTxt = 'Closed · opens ' + when + ' at ' + fmt(nx.o);
+        todaysTxt = today ? todaysTxt : ('Closed today · opens ' + when + ' at ' + fmt(nx.o));
+      }
+      return { open: open, stateTxt: stateTxt, shortTxt: shortTxt, todaysTxt: todaysTxt };
+    }
+
+    function set(id, txt) { var el = document.getElementById(id); if (el) el.textContent = txt; }
+    function dot(id, isOpen) { var el = document.getElementById(id); if (el) el.classList.toggle('closed', !isOpen); }
+
+    function twoTrack(open) {
+      // When closed, promote every [data-live-actions] group's Book CTA to primary.
+      var groups = document.querySelectorAll('[data-live-actions]');
+      groups.forEach(function (g) {
+        var call = g.querySelector('[data-cta="call"]');
+        var book = g.querySelector('[data-cta="book"]');
+        if (!book || !call) return;
+        if (!open) {
+          book.classList.remove('btn-ghost'); book.classList.add('btn-call');
+          call.classList.remove('btn-call'); call.classList.add('btn-ghost');
+          g.insertBefore(book, call);
+        } else {
+          book.classList.remove('btn-call'); book.classList.add('btn-ghost');
+          call.classList.remove('btn-ghost'); call.classList.add('btn-call');
+          g.insertBefore(call, book);
+        }
+      });
+    }
+
+    function paint() {
+      var s = compute();
+      set('topStatusText', s.shortTxt); dot('topDot', s.open);
+      set('heroStatusText', s.shortTxt); dot('heroDot', s.open);
+      set('cardState', s.stateTxt); set('cardTodays', s.todaysTxt); dot('cardDot', s.open);
+      set('finalStatus', s.open ? ('● ' + s.shortTxt) : ('○ ' + s.shortTxt));
+      twoTrack(s.open);
+    }
+
+    paint();
+    setInterval(paint, 60000); // refresh each minute
+  })();
+</script>

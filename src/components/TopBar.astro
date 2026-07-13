@@ -1,0 +1,17 @@
+---
+import Icon from './Icon.astro';
+import { site } from '@data/site';
+---
+<div class="topbar">
+  <div class="wrap">
+    <a class="addr" href={site.links.directions} target="_blank" rel="noopener" data-directions>
+      <Icon name="pin" size={15} class="i" />{site.address.streetShort}, {site.address.locality}, {site.address.region}
+    </a>
+    <span class="status-pill" id="topStatus">
+      <span class="dot" id="topDot"></span><span id="topStatusText">Checking hours…</span>
+    </span>
+    <a class="call" href={site.phone.href} data-cta="call">
+      <Icon name="phone" size={16} class="i" />{site.phone.display}
+    </a>
+  </div>
+</div>
