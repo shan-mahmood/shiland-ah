@@ -1,6 +1,6 @@
 ---
 import Icon from './Icon.astro';
-import { site } from '@data/site';
+import { site, booking } from '@data/site';
 
 const nav = [
   { label: 'Services', href: '/#services' },
@@ -19,7 +19,7 @@ const nav = [
       {nav.map((n) => <a href={n.href}>{n.label}</a>)}
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-ghost" href="/contact-us/">Book appointment</a>
+      <a class="btn btn-ghost" href={booking.href} data-cta="book" target={booking.external ? '_blank' : undefined} rel={booking.external ? 'noopener' : undefined}>Book appointment</a>
       <a class="btn btn-call" href={site.phone.href} data-cta="call">
         <Icon name="phone" size={16} class="i" />Call {site.phone.display}
       </a>

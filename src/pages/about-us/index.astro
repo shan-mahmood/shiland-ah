@@ -2,7 +2,7 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Icon from '@components/Icon.astro';
 import FinalCTA from '@components/FinalCTA.astro';
-import { site } from '@data/site';
+import { site, booking } from '@data/site';
 import { breadcrumb } from '../../lib/schema';
 
 const path = '/about-us/';
@@ -35,7 +35,7 @@ const schema = [breadcrumb([{ name: 'Home', path: '/' }, { name: 'About Us', pat
           <a class="btn btn-call" href={site.phone.href} data-cta="call">
             <Icon name="phone" size={16} class="i" />Call the clinic
           </a>
-          <a class="btn btn-ghost" href="/contact-us/" data-cta="book">Book appointment</a>
+          <a class="btn btn-ghost" href={booking.href} data-cta="book" target={booking.external ? '_blank' : undefined} rel={booking.external ? 'noopener' : undefined}>Book appointment</a>
         </div>
       </div>
     </div>

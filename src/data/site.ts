@@ -44,8 +44,13 @@ export const site = {
     instagram: 'https://www.instagram.com/shilandanimalhospital/',
   },
 
-  /** Standalone off-hours scheduler. Set via BOOK_URL env at build time; falls back to phone. */
-  bookUrl: import.meta.env.BOOK_URL || '',
+  /**
+   * Online booking / client portal (Great Pet Care). Used by the secondary CTA
+   * and promoted to primary when the clinic is closed. Env-overridable via BOOK_URL.
+   */
+  bookUrl:
+    import.meta.env.BOOK_URL ||
+    'https://account.greatpetcare.com/?cvetId=V00300128&destination=portal',
 
   payment: [
     { name: 'Cherry', url: '/payment-plans/' },
@@ -95,6 +100,15 @@ export const site = {
     ga4: 'GT-WF3LGK35',
     gtm: 'GTM-N8SQGHBR',
   },
+} as const;
+
+/**
+ * Resolved booking link for CTAs. `external` is true when it points off-site
+ * (so links open in a new tab); falls back to the contact form if ever unset.
+ */
+export const booking = {
+  href: site.bookUrl || '/contact-us/',
+  external: (site.bookUrl || '').startsWith('http'),
 } as const;
 
 /**

@@ -2,7 +2,7 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Icon from '@components/Icon.astro';
 import FinalCTA from '@components/FinalCTA.astro';
-import { site, services } from '@data/site';
+import { site, services, booking } from '@data/site';
 import { breadcrumb, service as serviceSchema } from '../../lib/schema';
 
 export function getStaticPaths() {
@@ -11,7 +11,6 @@ export function getStaticPaths() {
 
 const { service } = Astro.props;
 const path = `/${service.slug}/`;
-const bookHref = site.bookUrl || '/contact-us/';
 
 // Three related services (wrap around the list).
 const idx = services.findIndex((s) => s.slug === service.slug);
@@ -88,7 +87,7 @@ const schema = [
             <a class="btn btn-call" href={site.phone.href} data-cta="call">
               <Icon name="phone" size={16} class="i" />Call {site.phone.display}
             </a>
-            <a class="btn btn-ghost" href={bookHref} data-cta="book">Book appointment</a>
+            <a class="btn btn-ghost" href={booking.href} data-cta="book" target={booking.external ? '_blank' : undefined} rel={booking.external ? 'noopener' : undefined}>Book appointment</a>
           </div>
           <p class="side-note" id="finalStatus">Checking today's hours…</p>
         </div>

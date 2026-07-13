@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Icon from '@components/Icon.astro';
-import { site } from '@data/site';
+import { site, booking } from '@data/site';
 import { breadcrumb } from '../../lib/schema';
 
 const path = '/promotions/';
@@ -33,7 +33,7 @@ const schema = [breadcrumb([{ name: 'Home', path: '/' }, { name: 'Promotions', p
           <a class="btn btn-call btn-lg" href={site.phone.href} data-cta="call">
             <Icon name="phone" size={16} class="i" />Claim your free first visit
           </a>
-          <a class="btn btn-ghost btn-lg" href="/contact-us/" data-cta="book">Book appointment</a>
+          <a class="btn btn-ghost btn-lg" href={booking.href} data-cta="book" target={booking.external ? '_blank' : undefined} rel={booking.external ? 'noopener' : undefined}>Book appointment</a>
         </div>
         <div class="phone-big" id="finalStatus">Checking today's hours…</div>
       </div>
