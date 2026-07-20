@@ -98,7 +98,7 @@ export const site = {
 
   analytics: {
     ga4: 'GT-WF3LGK35',
-    gtm: 'GTM-N8SQGHBR',
+    gtm: 'GTM-M4Z5BWNS',
   },
 } as const;
 
