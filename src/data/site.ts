@@ -50,7 +50,7 @@ export const site = {
    */
   bookUrl:
     import.meta.env.BOOK_URL ||
-    'https://account.greatpetcare.com/?cvetId=V00300128&destination=portal',
+    'https://account.greatpetcare.com/vets/1000005663/appointments',
 
   payment: [
     { name: 'Cherry', url: '/payment-plans/' },

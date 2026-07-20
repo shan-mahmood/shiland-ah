@@ -15,6 +15,7 @@ const description =
     <div class="wrap hero-grid">
       <div class="hero-copy">
         <span class="eyebrow"><span class="dot" id="heroDot"></span><span class="mono" id="heroStatusText">Checking hours…</span></span>
+        <span class="hero-promo"><Icon name="gift" size={16} class="i" />New clients: <strong>first wellness exam free</strong></span>
         <h1 class="hero-title">When your pet needs a vet, we're <em>open and ready</em> in Rock Hill.</h1>
         <p class="hero-sub">Owner-operated care six days a week — including evenings and weekends. Walk in, or call ahead and we'll be ready when you arrive.</p>
         <div class="hero-actions" data-live-actions>
@@ -176,6 +177,36 @@ const description =
       <Icon name="phone" size={16} class="i" />Claim your free first visit
     </a></div>
   </div></div></section>
+
+  <!-- ============ CLIENT PORTAL + APP ============ -->
+  <section id="portal">
+    <div class="wrap">
+      <div class="portal">
+        <div class="portal-body">
+          <span class="kicker">Manage care online</span>
+          <h2>Your pet's care, right from your phone.</h2>
+          <p>Book appointments, view records, and stay on top of reminders through our secure Great Pet Care portal — or download the free app so it's always a tap away.</p>
+          <ul class="portal-list">
+            <li><Icon name="calendar" size={18} class="i" />Request and manage appointments online</li>
+            <li><Icon name="heart" size={18} class="i" />View your pet's records and visit history</li>
+            <li><Icon name="clock" size={18} class="i" />Get vaccine and appointment reminders</li>
+          </ul>
+          <a class="btn btn-call btn-lg" href={booking.href} data-cta="book" target={booking.external ? '_blank' : undefined} rel={booking.external ? 'noopener' : undefined}>
+            <Icon name="arrow" size={16} class="i" />Open the client portal
+          </a>
+        </div>
+        <div class="portal-card">
+          <div class="p-ic"><Icon name="device" size={40} /></div>
+          <h3>Get the app</h3>
+          <p>Download the free Great Pet Care app to book and manage visits on the go.</p>
+          <a class="btn btn-call" href={booking.href} data-cta="book" target={booking.external ? '_blank' : undefined} rel={booking.external ? 'noopener' : undefined}>
+            <Icon name="device" size={16} class="i" />Get the app
+          </a>
+          <p class="app-note">Available on iOS &amp; Android. <a href={booking.href} target={booking.external ? '_blank' : undefined} rel={booking.external ? 'noopener' : undefined}>Start here →</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- ============ REVIEWS ============ -->
   <section id="reviews">

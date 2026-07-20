@@ -41,10 +41,12 @@ Status: **staging build complete and passing** (24 routes generated). Not yet de
    Until set it posts to a placeholder and won't deliver. Honeypot + SMS-consent
    ("Reply STOP…") + `form_submit` event are all in place.
 
-4. **Booking portal wired up.** "Book appointment" CTAs point to the clinic's
-   Great Pet Care client portal (`account.greatpetcare.com/?cvetId=V00300128`),
-   opening in a new tab. It's the default in `src/data/site.ts` and is what the
-   two-track closed-state promotion targets. Override with `BOOK_URL` if it changes.
+4. **Booking portal wired up.** "Book appointment"/"Open portal" CTAs point to the
+   clinic's Great Pet Care client portal
+   (`account.greatpetcare.com/vets/1000005663/appointments`), opening in a new tab.
+   It's the default in `src/data/site.ts` and is what the two-track closed-state
+   promotion, the mobile sticky bar, and the homepage portal/app section all target.
+   Override with `BOOK_URL` if it changes.
 
 5. **Assets**: color logo, white footer logo, hero photo, and Dr. Kadhim photo are
    self-contained in `public/` (logo/hero extracted from the reference HTML's
