@@ -94,7 +94,7 @@ export const site = {
   timezone: 'America/New_York',
 
   /** Approved, live promotion. */
-  promo: 'First wellness visit free',
+  promo: 'Free first wellness exam for healthy pets',
 
   analytics: {
     ga4: 'GT-WF3LGK35',
