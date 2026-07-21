@@ -16,3 +16,6 @@ pnpm-debug.log*
 # macOS / editor
 .DS_Store
 *.local
+
+# Source design assets (optimized versions live in public/)
+shiland-animal-hospital---urgent-care-plaque.png
