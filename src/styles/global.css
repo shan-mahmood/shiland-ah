@@ -308,6 +308,11 @@ footer.site a:hover{color:var(--honey)}
 .hero-rating{font-size:.92rem;color:var(--muted)}
 .hero-rating .g-stars{vertical-align:-1px}
 .hero-rating b{color:var(--ink)}
+.award{display:grid;grid-template-columns:210px 1fr;gap:32px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px 32px;box-shadow:var(--shadow);margin-bottom:22px}
+.award-plaque{width:100%;height:auto;border-radius:10px;box-shadow:var(--shadow-lg)}
+.award-body h3{font-size:clamp(1.4rem,2.4vw,1.85rem);margin:8px 0 10px}
+.award-body p{color:var(--muted);max-width:60ch}
+@media(max-width:600px){.award{grid-template-columns:1fr;justify-items:center;text-align:center;gap:22px;padding:26px}.award-plaque{max-width:210px}}
 .rating-summary{display:flex;align-items:center;justify-content:space-between;gap:24px;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:24px 30px;box-shadow:var(--shadow);margin-bottom:30px;flex-wrap:wrap}
 .rs-left{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
 .rs-num{font-family:'Nunito',sans-serif;font-weight:800;font-size:3rem;color:var(--ink);line-height:1}
