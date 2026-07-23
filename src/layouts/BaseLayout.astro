@@ -39,6 +39,15 @@ const { gtm } = site.analytics;
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Tag Manager -->
+  <script is:inline async src="https://www.googletagmanager.com/gtm.js?id=GTM-M4Z5BWNS"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  </script>
+  <!-- End Google Tag Manager -->
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
