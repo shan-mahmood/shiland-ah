@@ -390,6 +390,34 @@ footer.site a:hover{color:var(--honey)}
 .prose ul li::before{content:"✓";color:var(--pine);font-weight:700;flex:none}
 .prose a{color:var(--pine);font-weight:600;text-decoration:underline;text-underline-offset:2px}
 
+/* promotional offer callout (e.g. dental special) */
+.offer-callout{
+  background:linear-gradient(150deg,#FFF4EC 0%,#FEE9D9 100%);
+  border:1px solid #F6C9A8;border-left:4px solid var(--honey);
+  border-radius:14px;padding:24px 26px;margin-bottom:32px;
+}
+.offer-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.offer-tag{
+  display:inline-flex;align-items:center;gap:7px;
+  color:var(--honey-deep);font-family:'Open Sans',sans-serif;font-weight:700;
+  font-size:.8rem;letter-spacing:.05em;text-transform:uppercase;
+}
+.offer-save{
+  background:var(--honey);color:#fff;
+  font-family:'Nunito',sans-serif;font-weight:800;font-size:.72rem;letter-spacing:.04em;text-transform:uppercase;
+  border-radius:6px;padding:3px 9px;
+}
+.offer-price{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
+.offer-price s{color:var(--muted);font-size:1.15rem;font-weight:600;text-decoration-thickness:2px}
+.offer-price b{font-family:'Nunito',sans-serif;font-weight:800;font-size:2.4rem;line-height:1;color:var(--ink)}
+.offer-callout p{margin-bottom:18px}
+.offer-callout .hero-actions{margin:0}
+.offer-terms{
+  margin-top:32px;padding-top:18px;border-top:1px dashed var(--line);
+  color:var(--muted);font-size:.82rem;line-height:1.55;
+}
+.offer-terms b{color:#3D4A43;font-weight:700}
+
 /* two-column interior layout */
 .split{display:grid;grid-template-columns:1.4fr .9fr;gap:48px;align-items:start}
 @media(max-width:960px){.split{grid-template-columns:1fr;gap:36px}}

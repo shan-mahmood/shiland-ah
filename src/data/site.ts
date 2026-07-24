@@ -154,6 +154,16 @@ export interface Service {
   included: string[];
   /** Detailed body sections reconciled from the live page copy (de-Vetcelerated). */
   sections: { h: string; p?: string; list?: string[] }[];
+  /** Optional promotional offer surfaced as a callout + fine print on the page. */
+  offer?: {
+    heading: string;
+    price: string;
+    regular?: string;
+    save?: string;
+    blurb: string;
+    /** Legal fine print / eligibility conditions. */
+    terms: string;
+  };
 }
 
 export const services: Service[] = [
@@ -284,6 +294,16 @@ export const services: Service[] = [
         p: 'Bad breath, drooling, difficulty eating, pawing at the mouth, or red and bleeding gums can all signal a dental problem. If you notice any of these signs, contact us for a dental exam — preventive care is the best way to avoid painful conditions.',
       },
     ],
+    offer: {
+      heading: 'Dental cleaning special',
+      price: '$350',
+      regular: '$700',
+      save: 'Save 50%',
+      blurb:
+        "A complete dental cleaning — full oral exam, cleaning and polishing under anesthesia — for $350, about half our regular price. Call or book to reserve your pet's spot.",
+      terms:
+        'Offer covers a routine dental cleaning for healthy cats and dogs: pre-anesthetic assessment, scaling, polishing, and oral exam. Additional treatment identified during the visit — such as tooth extractions, oral surgery, dental X-rays, or medications — is not included and is quoted separately before we proceed. A current wellness exam may be required to confirm your pet is a candidate for anesthesia. One pet per offer. Cannot be combined with other offers. Pricing subject to change; please mention this offer when scheduling.',
+    },
   },
   {
     slug: 'pet-surgery-rock-hill-fort-mill',

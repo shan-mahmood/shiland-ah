@@ -45,6 +45,25 @@ const schema = [
   <section style="padding-top:32px">
     <div class="wrap split">
       <div class="prose">
+        {service.offer && (
+          <div class="offer-callout" id="offer">
+            <div class="offer-head">
+              <span class="offer-tag"><Icon name="tooth" size={15} class="i" />{service.offer.heading}</span>
+              {service.offer.save && <span class="offer-save">{service.offer.save}</span>}
+            </div>
+            <div class="offer-price">
+              {service.offer.regular && <s>{service.offer.regular}</s>}
+              <b>{service.offer.price}</b>
+            </div>
+            <p>{service.offer.blurb}</p>
+            <div class="hero-actions" data-live-actions>
+              <a class="btn btn-call" href={site.phone.href} data-cta="call">
+                <Icon name="phone" size={16} class="i" />Call {site.phone.display}
+              </a>
+              <a class="btn btn-ghost" href={booking.href} data-cta="book" target={booking.external ? '_blank' : undefined} rel={booking.external ? 'noopener' : undefined}>Book appointment</a>
+            </div>
+          </div>
+        )}
         <div class="included">
           <h2>What's included</h2>
           <ul>
@@ -77,6 +96,10 @@ const schema = [
             </a>
           ))}
         </div>
+
+        {service.offer && (
+          <p class="offer-terms"><b>Offer details:</b> {service.offer.terms}</p>
+        )}
       </div>
 
       <aside>
