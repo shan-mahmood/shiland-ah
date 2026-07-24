@@ -1,5 +1,6 @@
 ---
 import '@styles/global.css';
+import PromoRibbon from '@components/PromoRibbon.astro';
 import TopBar from '@components/TopBar.astro';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
@@ -81,6 +82,8 @@ const { gtm } = site.analytics;
   <link rel="manifest" href="/site.webmanifest" />
   <meta name="theme-color" content="#15594B" />
 
+  <!-- No-flash guard: hide the dental promo ribbon before paint if already dismissed -->
+  <script is:inline>try{if(localStorage.getItem('promoDentalDismissed')==='1')document.documentElement.classList.add('promo-off')}catch(e){}</script>
 
   <!-- Per-page head additions (e.g. LCP image preload) -->
   <slot name="head" />
@@ -97,6 +100,7 @@ const { gtm } = site.analytics;
     <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${gtm}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   )}
   <a class="skip-link" href="#main">Skip to content</a>
+  <PromoRibbon />
   <TopBar />
   <Header />
   <main id="main">

@@ -61,6 +61,47 @@ img{display:block;max-width:100%}
 .dot.closed{background:#E4A05B;box-shadow:0 0 0 4px rgba(228,160,91,.2)}
 .topbar .call{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-family:'Open Sans',sans-serif}
 
+/* ---------- promo ribbon (dental special) ---------- */
+.promo-ribbon{
+  background:linear-gradient(100deg,#B8460F 0%,#D9541A 52%,#E86A2B 100%);
+  color:#fff;position:relative;
+  border-bottom:1px solid rgba(0,0,0,.14);
+  box-shadow:inset 0 -1px 0 rgba(255,255,255,.14);
+}
+html.promo-off .promo-ribbon,.promo-ribbon.is-hidden{display:none}
+.promo-inner{display:flex;align-items:center;gap:16px;min-height:46px;padding-top:7px;padding-bottom:7px}
+.promo-link{display:flex;align-items:center;gap:14px;flex:1 1 auto;flex-wrap:wrap;color:#fff;font-family:'Open Sans',sans-serif}
+.promo-badge{
+  display:inline-flex;align-items:center;gap:7px;flex:none;
+  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.36);
+  border-radius:999px;padding:4px 12px 4px 10px;
+  font-weight:700;font-size:.78rem;letter-spacing:.03em;text-transform:uppercase;
+}
+.promo-msg{display:inline-flex;align-items:center;gap:11px;flex-wrap:wrap;font-size:.96rem;font-weight:600}
+.promo-price{display:inline-flex;align-items:baseline;gap:8px}
+.promo-price s{opacity:.72;font-weight:600;font-size:.9rem;text-decoration-thickness:2px}
+.promo-price b{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.3rem;line-height:1}
+.promo-save{
+  background:#fff;color:var(--honey-deep);
+  font-family:'Nunito',sans-serif;font-weight:800;font-size:.72rem;letter-spacing:.04em;text-transform:uppercase;
+  border-radius:6px;padding:3px 8px;
+}
+.promo-cta{display:inline-flex;align-items:center;flex:none;font-weight:700;font-size:.9rem;text-decoration:underline;text-underline-offset:3px;transition:transform .15s ease}
+.promo-link:hover .promo-cta{transform:translateX(2px)}
+.promo-close{
+  flex:none;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.32);color:#fff;
+  width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1.2rem;line-height:1;
+  display:inline-flex;align-items:center;justify-content:center;transition:background .15s ease;
+}
+.promo-close:hover{background:rgba(255,255,255,.3)}
+@media(max-width:640px){
+  .promo-inner{gap:10px}
+  .promo-cta{display:none}
+  .promo-msg{font-size:.86rem;gap:8px}
+  .promo-price b{font-size:1.18rem}
+  .promo-badge{font-size:.7rem}
+}
+
 /* ---------- header ---------- */
 header.site{position:sticky;top:0;z-index:50;background:rgba(251,247,239,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:76px}

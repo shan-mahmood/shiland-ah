@@ -1,0 +1,46 @@
+---
+/**
+ * Dismissible top ribbon promoting the $350 dental-cleaning special.
+ * Prominent (very top of every page) but never blocks content, and it stays
+ * dismissed via localStorage. A no-flash guard in BaseLayout's <head> hides it
+ * before paint for visitors who've already closed it.
+ */
+import Icon from './Icon.astro';
+
+const dentalHref = '/pet-dentisty-rock-hill-fort-mill/';
+---
+<aside class="promo-ribbon" id="promoRibbon" aria-label="Dental cleaning special offer">
+  <div class="wrap promo-inner">
+    <a class="promo-link" href={dentalHref} data-promo="dental-350">
+      <span class="promo-badge"><Icon name="tooth" size={15} class="i" />Dental Special</span>
+      <span class="promo-msg">
+        Complete dental cleaning
+        <span class="promo-price"><s>$700</s><b>$350</b></span>
+        <span class="promo-save">Save 50%</span>
+      </span>
+      <span class="promo-cta">See details<span aria-hidden="true">&nbsp;→</span></span>
+    </a>
+    <button class="promo-close" id="promoClose" type="button" aria-label="Dismiss dental offer">&times;</button>
+  </div>
+</aside>
+
+<script is:inline>
+  (function () {
+    var KEY = 'promoDentalDismissed';
+    var bar = document.getElementById('promoRibbon');
+    var btn = document.getElementById('promoClose');
+    var link = bar && bar.querySelector('.promo-link');
+    if (!bar || !btn) return;
+    btn.addEventListener('click', function () {
+      bar.classList.add('is-hidden');
+      document.documentElement.classList.add('promo-off');
+      try { localStorage.setItem(KEY, '1'); } catch (e) {}
+    });
+    if (link) {
+      link.addEventListener('click', function () {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'promo_click', promo_id: 'dental-350' });
+      });
+    }
+  })();
+</script>
