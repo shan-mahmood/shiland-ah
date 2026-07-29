@@ -48,7 +48,7 @@ const schema = [
         {service.offer && (
           <div class="offer-callout" id="offer">
             <div class="offer-head">
-              <span class="offer-tag"><Icon name="tooth" size={15} class="i" />{service.offer.heading}</span>
+              <span class="offer-tag">{service.offer.heading}</span>
               {service.offer.save && <span class="offer-save">{service.offer.save}</span>}
             </div>
             <div class="offer-price">

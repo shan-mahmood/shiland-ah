@@ -5,14 +5,12 @@
  * dismissed via localStorage. A no-flash guard in BaseLayout's <head> hides it
  * before paint for visitors who've already closed it.
  */
-import Icon from './Icon.astro';
-
 const dentalHref = '/pet-dentisty-rock-hill-fort-mill/';
 ---
 <aside class="promo-ribbon" id="promoRibbon" aria-label="Dental cleaning special offer">
   <div class="wrap promo-inner">
     <a class="promo-link" href={dentalHref} data-promo="dental-350">
-      <span class="promo-badge"><Icon name="tooth" size={15} class="i" />Dental Special</span>
+      <span class="promo-badge">Dental Special</span>
       <span class="promo-msg">
         Complete dental cleaning
         <span class="promo-price"><s>$700</s><b>$350</b></span>

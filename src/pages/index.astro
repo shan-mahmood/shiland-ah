@@ -17,13 +17,13 @@ const description =
         <span class="eyebrow"><span class="dot" id="heroDot"></span><span class="mono" id="heroStatusText">Checking hours…</span></span>
         <h1 class="hero-title">When your pet needs a vet, we're <em>open and ready</em> in Rock Hill. <span class="hl">Free first wellness exam for healthy pets.</span></h1>
         <p class="hero-sub">Owner-operated care six days a week — including evenings and weekends. Walk in, or call ahead and we'll be ready when you arrive.</p>
+        <p class="hero-note" id="heroNote"><strong>Walk-ins welcome.</strong>&nbsp;Same-day appointments available. New patients accepted.</p>
         <div class="hero-actions" data-live-actions>
           <a class="btn btn-call btn-lg" href={site.phone.href} data-cta="call">
             <Icon name="phone" size={16} class="i" />Call {site.phone.display}
           </a>
           <a class="btn btn-ghost btn-lg" href={booking.href} data-cta="book" target={booking.external ? '_blank' : undefined} rel={booking.external ? 'noopener' : undefined}>Book appointment</a>
         </div>
-        <p class="hero-note" id="heroNote"><strong>Walk-ins welcome.</strong>&nbsp;Same-day appointments available. New patients accepted.</p>
         <p class="hero-rating"><span class="g-stars">★★★★★</span> <b>{site.rating.value}</b> · Rated <b>{site.rating.label}</b> by {site.rating.count} clients on Google</p>
       </div>
 
