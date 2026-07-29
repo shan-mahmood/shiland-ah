@@ -149,6 +149,12 @@ h1.hero-title .hl{display:block;font-size:.62em;color:var(--honey-deep);font-wei
 .hero-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
 .hero-note{font-size:.9rem;color:var(--muted);display:flex;align-items:center;gap:9px}
 .hero-note strong{color:var(--ink);font-weight:600}
+/* Closed-state: turn the hero note into a visible amber callout that steers to booking. */
+.hero-note.closed{background:rgba(243,102,33,.1);border:1px solid #F6C9A8;border-left:4px solid var(--honey);border-radius:12px;padding:12px 16px;color:var(--honey-deep);font-weight:500}
+.hero-note.closed strong{color:var(--honey-deep);font-weight:700}
+/* Closed-state notice on the dark final CTA. */
+.final-notice{display:inline-flex;align-items:center;gap:9px;background:rgba(243,102,33,.16);border:1px solid rgba(243,102,33,.55);color:#fff;border-radius:999px;padding:11px 20px;font-size:.98rem;font-weight:600;margin:0 auto 26px;position:relative}
+.final-notice .i{flex:none;color:#F8B98C}
 
 /* hero visual + live status card */
 .hero-visual{position:relative}

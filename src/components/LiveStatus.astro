@@ -96,13 +96,17 @@ const bookUrl = site.bookUrl;
     }
 
     function heroNote(open) {
-      // Match the hero note to the state: walk-in pitch when open, booking nudge when closed.
+      // Match the hero note to the state: walk-in pitch when open, a visible
+      // booking callout when closed (styled amber via the .closed class).
       var el = document.getElementById('heroNote');
       if (!el) return;
+      el.classList.toggle('closed', !open);
       el.innerHTML = open
         ? '<strong>Walk-ins welcome.</strong>&nbsp;Same-day appointments available. New patients accepted.'
-        : '<strong>We&rsquo;re closed today.</strong>&nbsp;Book online and we&rsquo;ll confirm your visit. New patients always welcome.';
+        : '<strong>We&rsquo;re closed today.</strong>&nbsp;Booking online is the fastest way to reach us &mdash; we&rsquo;ll confirm your appointment when we reopen.';
     }
+
+    function toggleHidden(id, hidden) { var el = document.getElementById(id); if (el) el.hidden = hidden; }
 
     function paint() {
       var s = compute();
@@ -112,6 +116,7 @@ const bookUrl = site.bookUrl;
       set('finalStatus', s.open ? ('● ' + s.shortTxt) : ('○ ' + s.shortTxt));
       twoTrack(s.open);
       heroNote(s.open);
+      toggleHidden('finalNotice', s.open); // show the closed notice only when closed
     }
 
     paint();
