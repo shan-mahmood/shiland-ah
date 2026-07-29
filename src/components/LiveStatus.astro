@@ -95,6 +95,15 @@ const bookUrl = site.bookUrl;
       });
     }
 
+    function heroNote(open) {
+      // Match the hero note to the state: walk-in pitch when open, booking nudge when closed.
+      var el = document.getElementById('heroNote');
+      if (!el) return;
+      el.innerHTML = open
+        ? '<strong>Walk-ins welcome.</strong>&nbsp;Same-day appointments available. New patients accepted.'
+        : '<strong>We&rsquo;re closed today.</strong>&nbsp;Book online and we&rsquo;ll confirm your visit. New patients always welcome.';
+    }
+
     function paint() {
       var s = compute();
       set('topStatusText', s.shortTxt); dot('topDot', s.open);
@@ -102,6 +111,7 @@ const bookUrl = site.bookUrl;
       set('cardState', s.stateTxt); set('cardTodays', s.todaysTxt); dot('cardDot', s.open);
       set('finalStatus', s.open ? ('● ' + s.shortTxt) : ('○ ' + s.shortTxt));
       twoTrack(s.open);
+      heroNote(s.open);
     }
 
     paint();

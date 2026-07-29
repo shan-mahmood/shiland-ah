@@ -30,8 +30,8 @@ export const site = {
   geo: { lat: 34.9745339, lng: -81.0246755 },
 
   rating: {
-    value: '5.0',
-    count: 164,
+    value: '4.9',
+    count: 173,
     label: 'Excellent',
   },
 
