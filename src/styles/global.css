@@ -338,6 +338,8 @@ footer.site a:hover{color:var(--honey)}
   .mobile-call .btn{flex:1;justify-content:center;padding:14px 10px;font-size:1rem}
   /* keep the outline button readable on the white bar */
   .mobile-call .btn-ghost{background:var(--white)}
+  /* When closed, the phone won't be answered — show only the booking button. */
+  .mobile-call.closed-mode [data-cta="call"]{display:none}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 :focus-visible{outline:3px solid var(--honey);outline-offset:2px;border-radius:4px}

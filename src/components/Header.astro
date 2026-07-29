@@ -18,7 +18,7 @@ const nav = [
     <nav class="links" aria-label="Primary">
       {nav.map((n) => <a href={n.href}>{n.label}</a>)}
     </nav>
-    <div class="nav-cta">
+    <div class="nav-cta" data-live-actions>
       <a class="btn btn-ghost" href={booking.href} data-cta="book" target={booking.external ? '_blank' : undefined} rel={booking.external ? 'noopener' : undefined}>Book appointment</a>
       <a class="btn btn-call" href={site.phone.href} data-cta="call">
         <Icon name="phone" size={16} class="i" />Call {site.phone.display}

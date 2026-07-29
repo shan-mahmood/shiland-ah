@@ -83,6 +83,7 @@ const bookUrl = site.bookUrl;
         var call = g.querySelector('[data-cta="call"]');
         var book = g.querySelector('[data-cta="book"]');
         if (!book || !call) return;
+        g.classList.toggle('closed-mode', !open); // lets sticky bars hide the phone when closed
         if (!open) {
           book.classList.remove('btn-ghost'); book.classList.add('btn-call');
           call.classList.remove('btn-call'); call.classList.add('btn-ghost');
@@ -117,6 +118,7 @@ const bookUrl = site.bookUrl;
       twoTrack(s.open);
       heroNote(s.open);
       toggleHidden('finalNotice', s.open); // show the closed notice only when closed
+      toggleHidden('heroEyebrow', !s.open); // hide the status pill when closed — the orange callout says it
     }
 
     paint();
