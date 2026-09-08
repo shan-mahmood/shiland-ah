@@ -1,0 +1,26 @@
+{
+  "name": "shilandah-reviews",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Post-visit review collection page for Shiland Animal Hospital (reviews.shilandah.com)",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "playwright test",
+    "test:install": "playwright install --with-deps chromium"
+  },
+  "dependencies": {
+    "next": "^15.5.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.6.0"
+  }
+}
