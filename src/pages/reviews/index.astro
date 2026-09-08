@@ -1,0 +1,431 @@
+---
+/**
+ * Post-visit review collection page — shilandah.com/reviews/
+ *
+ * Deliberately standalone (no BaseLayout): no site header/footer, no Open
+ * Graph/Twitter tags, no analytics, no cookies, no third-party scripts — a
+ * focused conversion card opened from a GoHighLevel email. NEVER indexed.
+ *
+ * Three client-side states routed by an NPS score (THRESHOLD = 8):
+ *   Rate → Review ask (Google/Yelp) for promoters (>= 8)
+ *   Rate → private Feedback form for detractors (<= 7)
+ *
+ * URL contract (built by the GHL email):
+ *   /reviews/?cid={id}&email=&fn={first}&pet={name}&s={0-10}
+ * A valid s (0-10) preselects and routes immediately without a click.
+ */
+import { site } from '@data/site';
+
+const THRESHOLD = 8;
+
+const cfg = {
+  threshold: THRESHOLD,
+  phoneDisplay: site.phone.display,
+  phoneHref: site.phone.href,
+  googleUrl: site.links.googleReview,
+  yelpUrl: site.links.yelpReview,
+  endpoint: '/api/event/',
+};
+
+const clinicName = site.name;
+const address = `${site.address.streetShort}, ${site.address.locality}, ${site.address.region}`;
+const logoUrl = 'https://www.shilandah.com/logo.webp';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <meta name="theme-color" content="#15594B" />
+    <title>How did we do? — {clinicName}</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div class="page">
+      <main class="card">
+        <img
+          class="logo"
+          src={logoUrl}
+          alt={clinicName}
+          onerror="this.style.display='none'"
+        />
+
+        <!-- State 1: Rate -->
+        <section id="view-rate">
+          <h1 id="rate-heading">How did we do?</h1>
+          <p class="sub" id="rate-sub">
+            On a scale of 0–10, how likely are you to recommend us based on your
+            visit?
+          </p>
+
+          <div class="scale" role="group" aria-label="Score from 0 to 10" id="scale"></div>
+          <div class="scale-labels">
+            <span>Not likely</span>
+            <span>Extremely likely</span>
+          </div>
+
+          <button type="button" class="btn btn-primary" id="continue" disabled>
+            Continue
+          </button>
+        </section>
+
+        <!-- State 2: Review ask (promoters) -->
+        <section id="view-review" hidden>
+          <div class="hero-glyph" aria-hidden="true">💚</div>
+          <h1 class="center">Thank you — that means a lot.</h1>
+          <p class="sub center">
+            A quick public review helps other pet families in our community find
+            us. It only takes a minute.
+          </p>
+          <a class="btn btn-primary" id="google-link" target="_blank" rel="noopener noreferrer">
+            Leave a Google review
+          </a>
+          <a class="btn btn-outline" id="yelp-link" target="_blank" rel="noopener noreferrer">
+            Leave a Yelp review
+          </a>
+        </section>
+
+        <!-- State 3: Feedback (detractors) -->
+        <section id="view-feedback" hidden>
+          <form id="feedback-form" novalidate>
+            <span class="pill" id="rating-pill" hidden></span>
+            <h1>We&apos;d like to make this right.</h1>
+            <p class="sub" id="feedback-sub">
+              Tell us what happened during your visit and we&apos;ll follow up.
+            </p>
+
+            <label for="fb">Your feedback</label>
+            <textarea
+              id="fb"
+              placeholder="What could we have done better?"
+              required
+              minlength="5"></textarea>
+
+            <div id="contact-wrap" hidden>
+              <label for="contact">Best way to reach you (optional)</label>
+              <input id="contact" type="text" placeholder="Phone or email" />
+            </div>
+
+            <p class="error" id="feedback-error" hidden>
+              Please add a few words so we know how to help.
+            </p>
+
+            <p class="private-note">
+              This goes to our team only — it is not posted publicly.
+            </p>
+
+            <button type="submit" class="btn btn-primary">Send</button>
+          </form>
+        </section>
+
+        <!-- State 4: Feedback thank-you -->
+        <section id="view-done" hidden>
+          <div class="hero-glyph" aria-hidden="true">🐾</div>
+          <h1 class="center">Thank you — we hear you.</h1>
+          <p class="sub center">
+            Your feedback is with our team. If you&apos;d like to speak with us
+            directly, we&apos;re here.
+          </p>
+          <p class="phone-line center">
+            <a href={cfg.phoneHref}>{cfg.phoneDisplay}</a>
+          </p>
+        </section>
+
+        <div class="footer">
+          <strong>{clinicName}</strong><br />
+          {address}
+        </div>
+      </main>
+    </div>
+
+    <script is:inline define:vars={{ cfg }}>
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        var cid = params.get('cid') || '';
+        var email = params.get('email') || '';
+        var fn = params.get('fn') || '';
+        var pet = params.get('pet') || '';
+        var src = params.get('src') || 'reviews_page';
+
+        var petClause = pet ? pet + "'s visit" : 'your visit';
+        var scoreSent = false;
+        var currentScore = null;
+
+        var views = {
+          rate: document.getElementById('view-rate'),
+          review: document.getElementById('view-review'),
+          feedback: document.getElementById('view-feedback'),
+          done: document.getElementById('view-done'),
+        };
+
+        function show(name) {
+          for (var k in views) views[k].hidden = k !== name;
+        }
+
+        function basePayload() {
+          return {
+            cid: cid,
+            email: email,
+            fn: fn,
+            pet: pet,
+            src: src,
+            ts: new Date().toISOString(),
+            page: '/reviews',
+          };
+        }
+
+        function sendEvent(payload) {
+          try {
+            fetch(cfg.endpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload),
+              keepalive: true,
+            }).catch(function () {});
+          } catch (e) {}
+        }
+
+        function commitScore(score) {
+          currentScore = score;
+          if (!scoreSent) {
+            scoreSent = true;
+            var p = basePayload();
+            p.event = 'score';
+            p.score = score;
+            p.bucket = score >= cfg.threshold ? 'promoter' : 'detractor';
+            sendEvent(p);
+          }
+          if (score >= cfg.threshold) {
+            show('review');
+          } else {
+            var pill = document.getElementById('rating-pill');
+            pill.textContent = 'You rated us ' + score + '/10';
+            pill.hidden = false;
+            show('feedback');
+          }
+        }
+
+        // Personalize copy
+        if (fn) document.getElementById('rate-heading').textContent = 'How did we do, ' + fn + '?';
+        document.getElementById('rate-sub').textContent =
+          'On a scale of 0–10, how likely are you to recommend us based on ' + petClause + '?';
+        document.getElementById('feedback-sub').textContent =
+          'Tell us what happened during ' + petClause + " and we'll follow up.";
+
+        // Review links
+        var g = document.getElementById('google-link');
+        var y = document.getElementById('yelp-link');
+        g.href = cfg.googleUrl;
+        y.href = cfg.yelpUrl;
+        g.addEventListener('click', function () {
+          if (currentScore === null) return;
+          var p = basePayload();
+          p.event = 'platform_click';
+          p.score = currentScore;
+          p.platform = 'google';
+          sendEvent(p);
+        });
+        y.addEventListener('click', function () {
+          if (currentScore === null) return;
+          var p = basePayload();
+          p.event = 'platform_click';
+          p.score = currentScore;
+          p.platform = 'yelp';
+          sendEvent(p);
+        });
+
+        // Build the 0–10 button row
+        var scale = document.getElementById('scale');
+        var continueBtn = document.getElementById('continue');
+        var buttons = [];
+        for (var n = 0; n <= 10; n++) {
+          (function (val) {
+            var b = document.createElement('button');
+            b.type = 'button';
+            b.textContent = String(val);
+            b.setAttribute('aria-label', 'Score ' + val);
+            b.setAttribute('aria-pressed', 'false');
+            b.addEventListener('click', function () {
+              currentScore = val;
+              for (var i = 0; i < buttons.length; i++)
+                buttons[i].setAttribute('aria-pressed', String(i === val));
+              continueBtn.disabled = false;
+            });
+            scale.appendChild(b);
+            buttons.push(b);
+          })(n);
+        }
+
+        continueBtn.addEventListener('click', function () {
+          if (currentScore !== null) commitScore(currentScore);
+        });
+
+        // Feedback form
+        var contactWrap = document.getElementById('contact-wrap');
+        if (!cid && !email) contactWrap.hidden = false;
+
+        document.getElementById('feedback-form').addEventListener('submit', function (e) {
+          e.preventDefault();
+          var fb = document.getElementById('fb').value.trim();
+          var err = document.getElementById('feedback-error');
+          if (fb.length < 5) {
+            err.hidden = false;
+            return;
+          }
+          err.hidden = true;
+          var p = basePayload();
+          p.event = 'feedback';
+          p.score = currentScore;
+          p.feedback = fb;
+          p.contact_alt = document.getElementById('contact').value.trim();
+          sendEvent(p);
+          show('done');
+        });
+
+        // One-tap from the email
+        var raw = params.get('s');
+        if (raw !== null && raw !== '') {
+          var num = Number(raw);
+          if (Number.isInteger(num) && num >= 0 && num <= 10) commitScore(num);
+        }
+      })();
+    </script>
+
+    <style>
+      :root {
+        --brand: #15594b;
+        --brand-hover: #0e3f35;
+        --bg: #f6f8f7;
+        --card: #ffffff;
+        --ink: #1c2b27;
+        --muted: #5f726c;
+        --line: #e2e9e6;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+      }
+      .page {
+        min-height: 100dvh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px 16px;
+      }
+      .card {
+        width: 100%;
+        max-width: 560px;
+        background: var(--card);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(21, 89, 75, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+        padding: 32px 28px;
+      }
+      .logo { display: block; max-height: 56px; width: auto; margin: 0 auto 20px; }
+      h1 { font-size: 1.5rem; line-height: 1.25; margin: 0 0 8px; letter-spacing: -0.01em; }
+      .sub { color: var(--muted); margin: 0 0 24px; font-size: 1rem; }
+      .hero-glyph { font-size: 2.5rem; text-align: center; margin: 4px 0 12px; line-height: 1; }
+      .scale {
+        display: grid;
+        grid-template-columns: repeat(11, 1fr);
+        gap: 6px;
+        margin: 8px 0 6px;
+      }
+      .scale button {
+        height: 48px;
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--ink);
+        border-radius: 10px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 0;
+        transition: background 0.12s, border-color 0.12s, color 0.12s, transform 0.05s;
+      }
+      .scale button:hover { border-color: var(--brand); }
+      .scale button:active { transform: translateY(1px); }
+      .scale button[aria-pressed='true'] {
+        background: var(--brand);
+        border-color: var(--brand);
+        color: #fff;
+      }
+      .scale-labels {
+        display: flex;
+        justify-content: space-between;
+        color: var(--muted);
+        font-size: 0.8rem;
+        margin-bottom: 24px;
+      }
+      .btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 14px 18px;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        border: 1px solid transparent;
+        transition: background 0.12s, border-color 0.12s, color 0.12s, opacity 0.12s;
+      }
+      .btn + .btn { margin-top: 12px; }
+      .btn-primary { background: var(--brand); color: #fff; }
+      .btn-primary:hover { background: var(--brand-hover); }
+      .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+      .btn-outline { background: #fff; color: var(--brand); border-color: var(--brand); }
+      .btn-outline:hover { background: #f0f5f3; }
+      .pill {
+        display: inline-block;
+        background: #eef4f1;
+        color: var(--brand);
+        border-radius: 999px;
+        padding: 5px 14px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 14px;
+      }
+      textarea, input[type='text'] {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 12px 14px;
+        font: inherit;
+        color: var(--ink);
+        background: #fff;
+        resize: vertical;
+      }
+      textarea:focus, input[type='text']:focus { outline: none; border-color: var(--brand); }
+      textarea { min-height: 120px; }
+      label { display: block; font-size: 0.9rem; font-weight: 600; margin: 16px 0 6px; }
+      .private-note { color: var(--muted); font-size: 0.85rem; margin: 10px 0 20px; }
+      .error { color: #b4231a; font-size: 0.85rem; margin: 8px 0 0; }
+      .phone-line { font-size: 1.15rem; font-weight: 600; margin: 6px 0; }
+      .phone-line a { color: var(--brand); text-decoration: none; }
+      .center { text-align: center; }
+      .footer {
+        margin-top: 28px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+      .footer strong { color: var(--ink); font-weight: 600; }
+      @media (max-width: 420px) {
+        .card { padding: 26px 18px; }
+        .scale { gap: 4px; }
+        .scale button { height: 42px; font-size: 0.85rem; border-radius: 8px; }
+        h1 { font-size: 1.35rem; }
+      }
+    </style>
+  </body>
+</html>
