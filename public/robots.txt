@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /reviews
+Disallow: /api/
 
 Sitemap: https://shilandah.com/sitemap-index.xml

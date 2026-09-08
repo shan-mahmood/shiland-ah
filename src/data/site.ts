@@ -37,6 +37,8 @@ export const site = {
 
   links: {
     googleReview: 'https://g.page/r/CUS6xCaiNJfsEBM/review',
+    yelpReview:
+      'https://www.yelp.com/writeareview/biz/HgbmSUfm2jFgBkkU_ToULw?return_url=%2Fbiz%2FHgbmSUfm2jFgBkkU_ToULw&review_origin=biz-details-war-button',
     directions: 'https://maps.app.goo.gl/xRnS96p22ArJZT7DA',
     mapEmbed:
       'https://www.google.com/maps?q=Shiland+Animal+Hospital+2685+Celanese+Road+Rock+Hill+SC&output=embed',
