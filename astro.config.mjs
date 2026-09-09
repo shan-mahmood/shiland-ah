@@ -32,7 +32,9 @@ export default defineConfig({
       filter: (page) =>
         !page.includes('/privacy-policy/') &&
         !page.includes('/404') &&
-        !page.includes('/rate'),
+        !page.includes('/rate') &&
+        // Legacy slug that 301s to /urgent-care/ — keep it out of the sitemap.
+        !page.includes('/pet-urgent-care-rock-hill-fort-mill'),
     }),
   ],
 });
