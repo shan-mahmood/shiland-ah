@@ -49,8 +49,8 @@ test('/api/event/ rejects invalid score and accepts a valid one', async ({
 
 test('score 9 → review state with correct Google + Yelp hrefs', async ({ page }) => {
   await page.goto('/reviews/?fn=Sam&pet=Bella');
+  // Tapping a number advances immediately — no Continue button.
   await page.getByRole('button', { name: 'Score 9' }).click();
-  await page.getByRole('button', { name: 'Continue' }).click();
 
   await expect(
     page.getByRole('heading', { name: 'Thank you — that means a lot.' })
@@ -121,10 +121,10 @@ test('contact field shows only when cid + email are both absent', async ({ page 
   await expect(page.getByLabel('Best way to reach you (optional)')).toBeHidden();
 });
 
-test('Continue is disabled until a score is picked', async ({ page }) => {
-  await page.goto('/reviews/');
-  const cont = page.getByRole('button', { name: 'Continue' });
-  await expect(cont).toBeDisabled();
+test('tapping a number advances straight to the next screen', async ({ page }) => {
+  await page.goto('/reviews/?cid=abc123');
   await page.getByRole('button', { name: 'Score 6' }).click();
-  await expect(cont).toBeEnabled();
+  await expect(
+    page.getByRole('heading', { name: "We'd like to make this right." })
+  ).toBeVisible();
 });

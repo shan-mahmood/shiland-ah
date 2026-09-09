@@ -71,10 +71,6 @@ const logoUrl = 'https://www.shilandah.com/logo.webp';
             <span>Not likely</span>
             <span>Extremely likely</span>
           </div>
-
-          <button type="button" class="btn btn-primary" id="continue" disabled>
-            Continue
-          </button>
         </section>
 
         <!-- State 2: Review ask (promoters) -->
@@ -242,31 +238,20 @@ const logoUrl = 'https://www.shilandah.com/logo.webp';
           sendEvent(p);
         });
 
-        // Build the 0–10 button row
+        // Build the 0–10 button row — tapping a number advances immediately.
         var scale = document.getElementById('scale');
-        var continueBtn = document.getElementById('continue');
-        var buttons = [];
         for (var n = 0; n <= 10; n++) {
           (function (val) {
             var b = document.createElement('button');
             b.type = 'button';
             b.textContent = String(val);
             b.setAttribute('aria-label', 'Score ' + val);
-            b.setAttribute('aria-pressed', 'false');
             b.addEventListener('click', function () {
-              currentScore = val;
-              for (var i = 0; i < buttons.length; i++)
-                buttons[i].setAttribute('aria-pressed', String(i === val));
-              continueBtn.disabled = false;
+              commitScore(val);
             });
             scale.appendChild(b);
-            buttons.push(b);
           })(n);
         }
-
-        continueBtn.addEventListener('click', function () {
-          if (currentScore !== null) commitScore(currentScore);
-        });
 
         // Feedback form
         var contactWrap = document.getElementById('contact-wrap');
@@ -345,13 +330,13 @@ const logoUrl = 'https://www.shilandah.com/logo.webp';
         margin: 8px 0 6px;
       }
       .scale button {
-        height: 48px;
+        height: 56px;
         border: 1px solid var(--line);
         background: #fff;
         color: var(--ink);
         border-radius: 10px;
-        font-size: 0.95rem;
-        font-weight: 600;
+        font-size: 1.35rem;
+        font-weight: 700;
         cursor: pointer;
         padding: 0;
         transition: background 0.12s, border-color 0.12s, color 0.12s, transform 0.05s;
@@ -429,7 +414,7 @@ const logoUrl = 'https://www.shilandah.com/logo.webp';
       @media (max-width: 420px) {
         .card { padding: 26px 18px; }
         .scale { gap: 4px; }
-        .scale button { height: 42px; font-size: 0.85rem; border-radius: 8px; }
+        .scale button { height: 50px; font-size: 1.15rem; border-radius: 8px; }
         h1 { font-size: 1.35rem; }
       }
     </style>
