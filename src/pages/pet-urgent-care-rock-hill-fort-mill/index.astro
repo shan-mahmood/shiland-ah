@@ -1,0 +1,8 @@
+---
+// Legacy service slug → 301 to the new canonical /urgent-care/ URL.
+// On-demand (not a static redirect route) so it returns a real 301 at the
+// trailing-slash URL Google already indexed, instead of being shadowed by the
+// trailingSlash add-slash rule.
+export const prerender = false;
+return Astro.redirect('/urgent-care/', 301);
+---

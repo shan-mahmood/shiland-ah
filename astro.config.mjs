@@ -15,13 +15,10 @@ export default defineConfig({
   // /api/event webhook proxy that keeps the GHL URLs server-side.
   output: 'static',
   adapter: vercel(),
-  // 301 the legacy urgent-care service slug to the new clean /urgent-care/ URL.
-  redirects: {
-    '/pet-urgent-care-rock-hill-fort-mill/': {
-      status: 301,
-      destination: '/urgent-care/',
-    },
-  },
+  // NOTE: the legacy urgent-care slug 301 is handled by an on-demand page
+  // (src/pages/pet-urgent-care-rock-hill-fort-mill/index.astro) rather than the
+  // `redirects` config — under trailingSlash:'always' the config emits a
+  // no-trailing-slash matcher that the add-slash rule shadows, yielding a 404.
   build: {
     // Emit /path/index.html so trailing-slash URLs resolve as static files.
     format: 'directory',
