@@ -1,7 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
-// Review-page tests run against the built static site (dist/client) served by a
-// tiny local server. Run `npm run build` first (the webServer does not rebuild).
+// Review-page tests run against the Astro dev server, which renders the
+// on-demand /reviews page and the /api/event endpoint (so headers, the state
+// machine, and endpoint validation are all exercised end to end).
 const PORT = 4321;
 const BASE_URL = `http://127.0.0.1:${PORT}`;
 
@@ -16,10 +17,12 @@ export default defineConfig({
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {
-    command: `node tests/static-server.mjs`,
+    command: `npm run dev -- --port ${PORT} --host 127.0.0.1`,
     url: BASE_URL,
     reuseExistingServer: !process.env.CI,
-    timeout: 60_000,
-    env: { PORT: String(PORT) },
+    timeout: 120_000,
+    stdout: 'pipe',
+    stderr: 'pipe',
+    env: { RATE_LIMIT_MAX: '1000' },
   },
 });

@@ -15,6 +15,38 @@ test('/reviews/ renders the noindex robots meta', async ({ page }) => {
   expect(content).toContain('noarchive');
 });
 
+test('/reviews/ sends the X-Robots-Tag noindex header', async ({ request }) => {
+  const res = await request.get('/reviews/');
+  expect(res.status()).toBe(200);
+  const header = res.headers()['x-robots-tag'] || '';
+  expect(header).toContain('noindex');
+  expect(header).toContain('nofollow');
+  expect(header).toContain('noarchive');
+});
+
+test('/api/event/ rejects invalid score and accepts a valid one', async ({
+  request,
+}) => {
+  const bad = await request.post('/api/event/', {
+    data: { event: 'score', score: 11, bucket: 'promoter' },
+  });
+  expect(bad.status()).toBe(400);
+  expect((await bad.json()).error).toBe('invalid_score');
+
+  const badEv = await request.post('/api/event/', {
+    data: { event: 'bogus', score: 9 },
+  });
+  expect(badEv.status()).toBe(400);
+  expect((await badEv.json()).error).toBe('invalid_event');
+
+  const ok = await request.post('/api/event/', {
+    data: { event: 'score', score: 9, bucket: 'promoter', cid: 'x' },
+  });
+  expect(ok.status()).toBe(200);
+  expect((await ok.json()).ok).toBe(true);
+  expect(ok.headers()['x-robots-tag'] || '').toContain('noindex');
+});
+
 test('score 9 → review state with correct Google + Yelp hrefs', async ({ page }) => {
   await page.goto('/reviews/?fn=Sam&pet=Bella');
   await page.getByRole('button', { name: 'Score 9' }).click();

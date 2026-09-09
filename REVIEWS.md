@@ -80,8 +80,10 @@ The marketing site stays fully indexable; only `/reviews` and `/api` are
 suppressed:
 
 - `<meta name="robots" content="noindex, nofollow, noarchive">` on the page.
-- `X-Robots-Tag: noindex, nofollow, noarchive` on `/reviews/*` and `/api/*` via
-  `vercel.json` (the API route also sets it in code).
+- `X-Robots-Tag: noindex, nofollow, noarchive` on both `/reviews/` and
+  `/api/event/` — set in code via the response headers. (The page is rendered
+  on-demand for this reason; the Astro Vercel adapter's build config supersedes
+  `vercel.json` `headers`, so a static header rule there would be ignored.)
 - `/reviews` excluded from the sitemap (`astro.config.mjs` filter).
 - `Disallow: /reviews` and `Disallow: /api/` in `public/robots.txt`.
 

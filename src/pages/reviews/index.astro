@@ -16,6 +16,12 @@
  */
 import { site } from '@data/site';
 
+// Rendered on-demand so we can attach the noindex header in code — the Astro
+// Vercel adapter's Build Output config supersedes vercel.json `headers`, so the
+// header must be set here (mirrors the /api/event route).
+export const prerender = false;
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
+
 const THRESHOLD = 8;
 
 const cfg = {
