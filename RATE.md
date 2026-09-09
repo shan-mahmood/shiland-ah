@@ -1,11 +1,14 @@
-# Post-visit review page — `shilandah.com/reviews/`
+# Post-visit review collector — `shilandah.com/rate/`
 
 An NPS-style review collector that plugs into GoHighLevel. It lives on the main
 site (no subdomain) and is **never indexed**. Promoters are sent to public
 review sites; detractors go to a private feedback form that reaches the team
 only.
 
-- **Page:** `src/pages/reviews/index.astro` — a standalone card (no site
+> Not to be confused with **`/reviews/`**, which is the public, indexable
+> testimonials page. This collector is the private one at **`/rate/`**.
+
+- **Page:** `src/pages/rate/index.astro` — a standalone card (no site
   header/footer, no Open Graph, no analytics/cookies/third-party scripts). All
   state logic is a first-party inline script.
 - **Webhook proxy:** `src/pages/api/event.ts` — the only on-demand
@@ -25,7 +28,7 @@ Three client states, routed by score with `THRESHOLD = 8`:
 ### URL contract (built by the GHL email)
 
 ```
-https://shilandah.com/reviews/?cid={{contact.id}}&email={{contact.email}}&fn={{contact.first_name}}&pet={{contact.pet_name}}&s=
+https://shilandah.com/rate/?cid={{contact.id}}&email={{contact.email}}&fn={{contact.first_name}}&pet={{contact.pet_name}}&s=
 ```
 
 - `fn` and `pet` personalize the copy (“…based on Bella’s visit?”).
@@ -33,12 +36,12 @@ https://shilandah.com/reviews/?cid={{contact.id}}&email={{contact.email}}&fn={{c
   preselects it and routes straight to the review ask or feedback form — no
   click needed. One-tap link per number:
   ```
-  https://shilandah.com/reviews/?cid={{contact.id}}&fn={{contact.first_name}}&pet={{contact.pet_name}}&s=9
+  https://shilandah.com/rate/?cid={{contact.id}}&fn={{contact.first_name}}&pet={{contact.pet_name}}&s=9
   ```
 - If **neither `cid` nor `email`** is present, the feedback form shows an
   optional “best way to reach you” field (`contact_alt`).
 
-> Keep the trailing slash on `/reviews/` — the site uses `trailingSlash: always`.
+> Keep the trailing slash on `/rate/` — the site uses `trailingSlash: always`.
 
 ### Data out
 
@@ -76,16 +79,16 @@ Public review links (Google, Yelp) live in `src/data/site.ts` under
 
 ## No-indexing (scoped to just this page)
 
-The marketing site stays fully indexable; only `/reviews` and `/api` are
+The marketing site stays fully indexable; only `/rate` and `/api` are
 suppressed:
 
 - `<meta name="robots" content="noindex, nofollow, noarchive">` on the page.
-- `X-Robots-Tag: noindex, nofollow, noarchive` on both `/reviews/` and
+- `X-Robots-Tag: noindex, nofollow, noarchive` on both `/rate/` and
   `/api/event/` — set in code via the response headers. (The page is rendered
   on-demand for this reason; the Astro Vercel adapter's build config supersedes
   `vercel.json` `headers`, so a static header rule there would be ignored.)
-- `/reviews` excluded from the sitemap (`astro.config.mjs` filter).
-- `Disallow: /reviews` and `Disallow: /api/` in `public/robots.txt`.
+- `/rate` excluded from the sitemap (`astro.config.mjs` filter).
+- `Disallow: /rate` and `Disallow: /api/` in `public/robots.txt`.
 
 ## Tests
 

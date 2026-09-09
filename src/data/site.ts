@@ -75,11 +75,10 @@ export const site = {
   areaServedSchema: [
     'Rock Hill, SC',
     'Fort Mill, SC',
+    'Indian Land, SC',
     'York, SC',
     'Lancaster, SC',
-    'Indian Land, SC',
-    'Pineville, NC',
-    'Charlotte, NC',
+    'Tega Cay, SC',
   ],
 
   /** Full geo sentence for service-page footers (mirrors the live pages' local signal). */
@@ -122,7 +121,7 @@ export const hours: ({ open: number; close: number } | null)[] = [
   { open: 10, close: 20 }, // Sun
   { open: 8, close: 19 }, // Mon
   { open: 8, close: 19 }, // Tue
-  null, // Wed — CLOSED
+  { open: 8, close: 19 }, // Wed
   { open: 8, close: 19 }, // Thu
   { open: 8, close: 19 }, // Fri
   { open: 9, close: 20 }, // Sat
@@ -132,7 +131,7 @@ export const hours: ({ open: number; close: number } | null)[] = [
 export const hoursDisplay: { day: string; hours: string; closed?: boolean }[] = [
   { day: 'Mon', hours: '8 AM – 7 PM' },
   { day: 'Tue', hours: '8 AM – 7 PM' },
-  { day: 'Wed', hours: 'Closed', closed: true },
+  { day: 'Wed', hours: '8 AM – 7 PM' },
   { day: 'Thu', hours: '8 AM – 7 PM' },
   { day: 'Fri', hours: '8 AM – 7 PM' },
   { day: 'Sat', hours: '9 AM – 8 PM' },
@@ -147,6 +146,12 @@ export const hoursDisplay: { day: string; hours: string; closed?: boolean }[] = 
 export interface Service {
   slug: string;
   title: string; // nav / card label
+  /** Canonical URL for this service. Defaults to `/${slug}/`; override when the
+   *  page lives at a cleaner path (e.g. Urgent Care → /urgent-care/). */
+  href?: string;
+  /** True when a dedicated page file renders this service (so the dynamic
+   *  [service] route must skip it to avoid a build collision). */
+  customPage?: boolean;
   h1: string; // geo-modified page H1 (matches the live-site H1 for SEO continuity)
   metaTitle: string; // exact live Yoast title
   metaDescription: string; // exact live Yoast meta description
@@ -176,7 +181,7 @@ export const services: Service[] = [
     icon: 'stethoscope',
     metaTitle: 'Pet Wellness Exam Rock Hill, SC | Shiland Animal Hospital',
     metaDescription:
-      'If your pet needs their annual vet appointment, contact Shiland Animal Hospital. We perform vet check-ups for cats and dogs in Rock Hill 6 days a week. Call us!',
+      'If your pet needs their annual vet appointment, contact Shiland Animal Hospital. We perform vet check-ups for cats and dogs in Rock Hill 7 days a week. Call us!',
     intro:
       'Routine vet exams are the foundation of a long, healthy life for your pet. Just like us, pets benefit from preventive care that helps detect potential issues early — before they develop into more serious problems.',
     included: [
@@ -209,7 +214,7 @@ export const services: Service[] = [
     icon: 'shield',
     metaTitle: 'Cat and Dog Vaccines Rock Hill, SC | Shiland Animal Hospital',
     metaDescription:
-      'Pets need to get their yearly shots. Call Shiland Animal Hospital for veterinary vaccinations in Rock Hill, SC. Open 6 days a week with same-day availability.',
+      'Pets need to get their yearly shots. Call Shiland Animal Hospital for veterinary vaccinations in Rock Hill, SC. Open 7 days a week with same-day availability.',
     intro:
       'Vaccinations are the best way to protect your pet from common, potentially life-threatening diseases — some of which can spread between pets and even to people. We offer both core and non-core vaccines tailored to your pet’s age, lifestyle, and health history.',
     included: [
@@ -242,7 +247,7 @@ export const services: Service[] = [
     icon: 'scalpel',
     metaTitle: 'Pet Spay and Neuter Rock Hill, SC | Shiland Animal Hospital',
     metaDescription:
-      'Shiland Animal Hospital proudly performs expert spay and neuter surgeries for cats and dogs in Rock Hill. Same-day consultations are available 6 days a week.',
+      'Shiland Animal Hospital proudly performs expert spay and neuter surgeries for cats and dogs in Rock Hill. Same-day consultations are available 7 days a week.',
     intro:
       'Spaying or neutering your pet is one of the most important decisions you can make for their long-term health and well-being. They’re among the most common surgeries we perform, with modern anesthesia and careful monitoring throughout.',
     included: [
@@ -271,7 +276,7 @@ export const services: Service[] = [
     icon: 'tooth',
     metaTitle: 'Cat & Dog Dentistry Rock Hill, SC | Shiland Animal Hospital',
     metaDescription:
-      'For pets that need a dentist, Shiland Animal Hospital is here! We provide dental care, including pet teeth cleanings, in Rock Hill, SC. Open 6 days a week.',
+      'For pets that need a dentist, Shiland Animal Hospital is here! We provide dental care, including pet teeth cleanings, in Rock Hill, SC. Open 7 days a week.',
     intro:
       'Oral health contributes to full-body health. Dental care is often overlooked until a problem arises — but without it, pets can develop plaque buildup, gingivitis, and periodontal disease, which can lead to tooth loss, infections, and pain.',
     included: [
@@ -354,7 +359,7 @@ export const services: Service[] = [
     icon: 'xray',
     metaTitle: 'Dog and Cat X-rays Rock Hill, SC | Shiland Animal Hospital',
     metaDescription:
-      'Your pet is limping. Do they have a broken bone? Find out at Shiland Animal Hospital. We perform X-rays for the pets of Rock Hill, SC. Open 6 days a week.',
+      'Your pet is limping. Do they have a broken bone? Find out at Shiland Animal Hospital. We perform X-rays for the pets of Rock Hill, SC. Open 7 days a week.',
     intro:
       'A physical exam is helpful, but it’s not always enough. Our digital pet radiography (X-ray) gives us a detailed look at your pet’s internal structures — helping us diagnose broken bones and internal issues quickly, right here on-site.',
     included: [
@@ -459,7 +464,7 @@ export const services: Service[] = [
     icon: 'paw',
     metaTitle: 'Puppy and Kitten Vet Rock Hill, SC | Shiland Animal Hospital',
     metaDescription:
-      'Shiland Animal Hospital loves performing first veterinary exams and vaccines for puppies and kittens in Rock Hill. We are open 6 days a week and evenings.',
+      'Shiland Animal Hospital loves performing first veterinary exams and vaccines for puppies and kittens in Rock Hill. We are open 7 days a week and evenings.',
     intro:
       'Bringing home a new puppy or kitten is an exciting time. Start your fur baby off on the right paw at Shiland Animal Hospital — the first months of life set the stage for a healthy adulthood.',
     included: [
@@ -569,13 +574,15 @@ export const services: Service[] = [
   {
     slug: 'pet-urgent-care-rock-hill-fort-mill',
     title: 'Urgent Care',
+    href: '/urgent-care/',
+    customPage: true,
     h1: 'Pet Urgent Care in Rock Hill',
     icon: 'clock',
     metaTitle: 'Cat & Dog Urgent Care Rock Hill | Shiland Animal Hospital',
     metaDescription:
-      'When your pet is sick or injured, get care at Shiland Animal Hospital. We treat cats and dogs six days a week and evenings in Rock Hill, SC. Walk-ins welcome.',
+      'When your pet is sick or injured, get care at Shiland Animal Hospital. We treat cats and dogs seven days a week and evenings in Rock Hill, SC. Walk-ins welcome.',
     intro:
-      'Not every pet health concern is life-threatening, but some issues still need to be addressed quickly. When your pet is unwell and you’re worried, we offer same-day attention six days a week — including evenings, with walk-ins welcome.',
+      'Not every pet health concern is life-threatening, but some issues still need to be addressed quickly. When your pet is unwell and you’re worried, we offer same-day attention seven days a week — including evenings, with walk-ins welcome.',
     included: [
       'Same-day sick visits',
       'On-site lab and X-ray for fast diagnosis',
@@ -609,13 +616,15 @@ export const services: Service[] = [
   {
     slug: 'pet-emergency-care-rock-hill-fort-mill',
     title: 'Emergency Care',
+    href: '/pet-emergency-care-rock-hill-fort-mill/',
+    customPage: true,
     h1: 'Emergency Veterinarian in Rock Hill',
     icon: 'bolt',
     metaTitle: 'Emergency Veterinarian Rock Hill | Shiland Animal Hospital',
     metaDescription:
-      'Shiland Animal Hospital is an emergency vet in Rock Hill, SC. Treating cats and dogs 6 days a week and evenings. No overnight. Walk-ins welcome. (803) 752-4950',
+      'Shiland Animal Hospital is an emergency vet in Rock Hill, SC. Treating cats and dogs 7 days a week and evenings. No overnight. Walk-ins welcome. (803) 752-4950',
     intro:
-      'You never expect an emergency to happen to your pet — but emergencies can happen at any time. Shiland Animal Hospital provides life-saving care for cats and dogs in distress, six days a week including evenings.',
+      'You never expect an emergency to happen to your pet — but emergencies can happen at any time. Shiland Animal Hospital provides life-saving care for cats and dogs in distress, seven days a week including evenings.',
     included: [
       'Emergency surgery on-site',
       'Foreign-body and exploratory surgery',

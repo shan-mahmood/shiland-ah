@@ -1,6 +1,6 @@
 ---
 title: "Welcome to Shiland Animal Hospital"
-description: "Full-service, owner-operated veterinary care for the pets of Rock Hill and Fort Mill — open six days a week, walk-ins welcome."
+description: "Full-service, owner-operated veterinary care for the pets of Rock Hill and Fort Mill — open seven days a week, walk-ins welcome."
 pubDate: 2026-01-15
 ---
 
@@ -8,7 +8,7 @@ Shiland Animal Hospital opened its doors in October 2024 with a simple goal: giv
 
 ## Care that fits real life
 
-Pets don't get sick on a schedule. That's why we're open six days a week — including evenings and weekends — with walk-ins welcome and same-day appointments available. Whether it's a routine wellness exam or a sudden emergency, you don't have to wait for Monday or drive to Charlotte.
+Pets don't get sick on a schedule. That's why we're open seven days a week — including evenings and weekends — with walk-ins welcome and same-day appointments available. Whether it's a routine wellness exam or a sudden emergency, you don't have to wait for Monday or drive to Charlotte.
 
 ## Everything under one roof
 

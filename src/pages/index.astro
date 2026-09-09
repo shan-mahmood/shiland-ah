@@ -6,7 +6,7 @@ import { site, services, booking } from '@data/site';
 
 const title = 'Shiland Animal Hospital | Veterinarian in Rock Hill, SC — Walk-ins & Same-Day Care';
 const description =
-  'Owner-operated veterinarian in Rock Hill, SC. Open 6 days a week including evenings and weekends. Walk-ins welcome, same-day appointments, in-house emergency surgery. Call (803) 752-4950.';
+  'Owner-operated veterinarian in Rock Hill, SC. Open 7 days a week including evenings and weekends. Walk-ins welcome, same-day appointments, in-house emergency surgery. Call (803) 752-4950.';
 ---
 <BaseLayout title={title} description={description} path="/">
   <link slot="head" rel="preload" as="image" href="/hero-photo.webp" fetchpriority="high" />
@@ -16,7 +16,7 @@ const description =
       <div class="hero-copy">
         <span class="eyebrow" id="heroEyebrow"><span class="dot" id="heroDot"></span><span class="mono" id="heroStatusText">Checking hours…</span></span>
         <h1 class="hero-title">When your pet needs a vet, we're <em>open and ready</em> in Rock Hill. <span class="hl">Free first wellness exam for healthy pets.</span></h1>
-        <p class="hero-sub">Owner-operated care six days a week — including evenings and weekends. Walk in, or call ahead and we'll be ready when you arrive.</p>
+        <p class="hero-sub">Owner-operated care seven days a week — including evenings and weekends. Walk in, or call ahead and we'll be ready when you arrive.</p>
         <p class="hero-note" id="heroNote"><strong>Walk-ins welcome.</strong>&nbsp;Same-day appointments available. New patients accepted.</p>
         <div class="hero-actions" data-live-actions>
           <a class="btn btn-call btn-lg" href={site.phone.href} data-cta="call">
@@ -55,7 +55,7 @@ const description =
     <div class="wrap">
       <div class="trust-item trust-rating"><span class="tstars">★★★★★</span><span><b>{site.rating.value} on Google</b> · {site.rating.count} reviews</span></div>
       <div class="trust-item"><span class="ic"><Icon name="flask" /></span><span><b>In-house lab &amp; X-ray</b> · fast diagnosis</span></div>
-      <div class="trust-item"><span class="ic"><Icon name="calendar" /></span><span><b>Open 6 days</b> · evenings &amp; weekends</span></div>
+      <div class="trust-item"><span class="ic"><Icon name="calendar" /></span><span><b>Open 7 days</b> · evenings &amp; weekends</span></div>
       <div class="trust-item"><span class="ic"><Icon name="pulse" /></span><span><b>Emergency surgery</b> on-site</span></div>
     </div>
   </div>
@@ -85,7 +85,7 @@ const description =
           <div class="p-ic"><Icon name="bolt" size={38} /></div>
           <h3>Same-day &amp; urgent</h3>
           <p>Sudden illness or injury? We keep same-day slots open and treat urgent cases quickly and compassionately.</p>
-          <a href="/pet-urgent-care-rock-hill-fort-mill/">Urgent care details →</a>
+          <a href="/urgent-care/">Urgent care details →</a>
         </div>
       </div>
     </div>
@@ -106,9 +106,12 @@ const description =
       </div>
       <div class="svc-foot">
         <span>Not sure what your pet needs? We'll help you figure it out.</span>
-        <a class="btn btn-call" href={site.phone.href} data-cta="call">
-          <Icon name="phone" size={16} class="i" />Call and ask
-        </a>
+        <div class="hero-actions">
+          <a class="btn btn-ghost" href="/services/">See all services</a>
+          <a class="btn btn-call" href={site.phone.href} data-cta="call">
+            <Icon name="phone" size={16} class="i" />Call and ask
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -159,7 +162,7 @@ const description =
         </div>
         <div>
           <h3 style="font-family:'Nunito',sans-serif;font-size:1.6rem;margin-bottom:14px">Fast, compassionate, and close to home</h3>
-          <p style="color:#3D4A43;font-size:1.06rem;margin-bottom:18px">You shouldn't have to drive to Charlotte and wait hours in an ER when your pet is hurting. We treat urgent and emergency cases six days a week, right here in Rock Hill.</p>
+          <p style="color:#3D4A43;font-size:1.06rem;margin-bottom:18px">You shouldn't have to drive to Charlotte and wait hours in an ER when your pet is hurting. We treat urgent and emergency cases seven days a week, right here in Rock Hill. <a href="/urgent-care/">See urgent care details →</a></p>
           <a class="btn btn-call btn-lg" href={site.phone.href} data-cta="call">
             <Icon name="phone" size={16} class="i" />{site.phone.display}
           </a>
@@ -250,6 +253,7 @@ const description =
         </div>
       </div>
       <div class="rev-cta">
+        <a class="btn btn-call btn-lg" href="/reviews/">See all reviews</a>
         <a class="btn btn-ghost btn-lg" href={site.links.googleReview} target="_blank" rel="noopener">Read all {site.rating.count} reviews on Google</a>
       </div>
     </div>
@@ -278,7 +282,7 @@ const description =
       <div class="area-body">
         <span class="kicker">Where we care for pets</span>
         <h2 style="font-size:clamp(1.8rem,3.2vw,2.3rem)">Serving Rock Hill, Fort Mill &amp; nearby communities.</h2>
-        <p style="color:var(--muted);margin-top:14px">Families across York and Lancaster counties — and the greater Charlotte area — come to Shiland for reliable, six-days-a-week care.</p>
+        <p style="color:var(--muted);margin-top:14px">Families across York and Lancaster counties — and the greater Charlotte area — come to Shiland for reliable, seven-days-a-week care.</p>
         <div class="chips">
           {site.serviceArea.map((c) => <span class="chip">{c}</span>)}
         </div>

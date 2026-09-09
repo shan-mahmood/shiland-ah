@@ -4,8 +4,8 @@ const GOOGLE_URL = 'https://g.page/r/CUS6xCaiNJfsEBM/review';
 const YELP_URL =
   'https://www.yelp.com/writeareview/biz/HgbmSUfm2jFgBkkU_ToULw?return_url=%2Fbiz%2FHgbmSUfm2jFgBkkU_ToULw&review_origin=biz-details-war-button';
 
-test('/reviews/ renders the noindex robots meta', async ({ page }) => {
-  await page.goto('/reviews/');
+test('/rate/ renders the noindex robots meta', async ({ page }) => {
+  await page.goto('/rate/');
   const content = await page
     .locator('meta[name="robots"]')
     .first()
@@ -15,8 +15,8 @@ test('/reviews/ renders the noindex robots meta', async ({ page }) => {
   expect(content).toContain('noarchive');
 });
 
-test('/reviews/ sends the X-Robots-Tag noindex header', async ({ request }) => {
-  const res = await request.get('/reviews/');
+test('/rate/ sends the X-Robots-Tag noindex header', async ({ request }) => {
+  const res = await request.get('/rate/');
   expect(res.status()).toBe(200);
   const header = res.headers()['x-robots-tag'] || '';
   expect(header).toContain('noindex');
@@ -48,7 +48,7 @@ test('/api/event/ rejects invalid score and accepts a valid one', async ({
 });
 
 test('score 9 → review state with correct Google + Yelp hrefs', async ({ page }) => {
-  await page.goto('/reviews/?fn=Sam&pet=Bella');
+  await page.goto('/rate/?fn=Sam&pet=Bella');
   // Tapping a number advances immediately — no Continue button.
   await page.getByRole('button', { name: 'Score 9' }).click();
 
@@ -65,14 +65,14 @@ test('score 9 → review state with correct Google + Yelp hrefs', async ({ page 
 });
 
 test('?s=8 → review state (promoter boundary)', async ({ page }) => {
-  await page.goto('/reviews/?s=8&fn=Sam');
+  await page.goto('/rate/?s=8&fn=Sam');
   await expect(
     page.getByRole('heading', { name: 'Thank you — that means a lot.' })
   ).toBeVisible();
 });
 
 test('?s=7 → feedback state with rating pill + private note', async ({ page }) => {
-  await page.goto('/reviews/?s=7&fn=Sam&pet=Bella');
+  await page.goto('/rate/?s=7&fn=Sam&pet=Bella');
   await expect(
     page.getByRole('heading', { name: "We'd like to make this right." })
   ).toBeVisible();
@@ -83,13 +83,13 @@ test('?s=7 → feedback state with rating pill + private note', async ({ page })
 });
 
 test('personalizes copy from fn + pet', async ({ page }) => {
-  await page.goto('/reviews/?fn=Sam&pet=Bella');
+  await page.goto('/rate/?fn=Sam&pet=Bella');
   await expect(page.getByRole('heading', { name: 'How did we do, Sam?' })).toBeVisible();
   await expect(page.getByText("based on Bella's visit?")).toBeVisible();
 });
 
 test('empty / too-short feedback shows an error and stays on the form', async ({ page }) => {
-  await page.goto('/reviews/?s=3&cid=abc123');
+  await page.goto('/rate/?s=3&cid=abc123');
   await page.getByRole('button', { name: 'Send' }).click();
   await expect(page.getByText('Please add a few words')).toBeVisible();
   await expect(
@@ -98,7 +98,7 @@ test('empty / too-short feedback shows an error and stays on the form', async ({
 });
 
 test('feedback submit → thank-you with clinic phone', async ({ page }) => {
-  await page.goto('/reviews/?s=4&cid=abc123');
+  await page.goto('/rate/?s=4&cid=abc123');
   await page
     .getByPlaceholder('What could we have done better?')
     .fill('The wait was too long and nobody updated us.');
@@ -114,15 +114,15 @@ test('feedback submit → thank-you with clinic phone', async ({ page }) => {
 });
 
 test('contact field shows only when cid + email are both absent', async ({ page }) => {
-  await page.goto('/reviews/?s=5');
+  await page.goto('/rate/?s=5');
   await expect(page.getByLabel('Best way to reach you (optional)')).toBeVisible();
 
-  await page.goto('/reviews/?s=5&cid=abc123');
+  await page.goto('/rate/?s=5&cid=abc123');
   await expect(page.getByLabel('Best way to reach you (optional)')).toBeHidden();
 });
 
 test('tapping a number advances straight to the next screen', async ({ page }) => {
-  await page.goto('/reviews/?cid=abc123');
+  await page.goto('/rate/?cid=abc123');
   await page.getByRole('button', { name: 'Score 6' }).click();
   await expect(
     page.getByRole('heading', { name: "We'd like to make this right." })

@@ -1,0 +1,163 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+import FinalCTA from '@components/FinalCTA.astro';
+import { site, services, booking, hoursDisplay } from '@data/site';
+import { breadcrumb, service as serviceSchema } from '../../lib/schema';
+
+const path = '/pet-emergency-care-rock-hill-fort-mill/';
+const svc = services.find((s) => s.slug === 'pet-emergency-care-rock-hill-fort-mill')!;
+
+const title = svc.metaTitle;
+const description = svc.metaDescription;
+
+const schema = [
+  breadcrumb([
+    { name: 'Home', path: '/' },
+    { name: 'Services', path: '/services/' },
+    { name: 'Emergency Care', path },
+  ]),
+  serviceSchema('Emergency Vet Care', description, path),
+];
+---
+<BaseLayout title={title} description={description} path={path} schema={schema}>
+  <div class="wrap">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="/services/">Services</a></li>
+        <li aria-current="page">Emergency Care</li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <h1>{svc.h1}</h1>
+      <p class="lede">
+        Shiland provides urgent and same-day emergency care — including emergency
+        surgery — for cats and dogs <strong>during our open hours, 7 days a
+        week</strong>. <strong>Walk-ins are welcome.</strong> If your pet is in
+        distress, call us on your way in so our team can prepare.
+      </p>
+      <div class="hero-actions" data-live-actions style="margin-top:8px">
+        <a class="btn btn-call btn-lg" href={site.phone.href} data-cta="call">
+          <Icon name="phone" size={16} class="i" />Call {site.phone.display}
+        </a>
+        <a class="btn btn-ghost btn-lg" href="/urgent-care/">Urgent care</a>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:28px">
+    <div class="wrap split">
+      <div class="prose">
+        <!-- Hours at the top — an emergency visitor needs to know if we're open now. -->
+        <div class="hours-block">
+          <h2 style="margin-top:0">Our hours (open 7 days a week)</h2>
+          <ul class="hours-inline">
+            {hoursDisplay.map((h) => (
+              <li><span>{h.day}</span><span>{h.hours}</span></li>
+            ))}
+          </ul>
+          <p class="side-note" id="finalStatus">Checking today’s hours…</p>
+          <p style="margin:8px 0 0;font-size:.9rem;color:var(--muted)">
+            We treat emergencies during open hours and do not provide overnight
+            (24-hour) care — see “After hours” below.
+          </p>
+        </div>
+
+        <h2>Same-day emergency surgery, on-site</h2>
+        <p>
+          Because we’re equipped for surgery in-house — including exploratory
+          surgery, foreign-body removal, and more — many emergencies can be
+          treated right here in Rock Hill during our open hours instead of a long
+          drive to a referral hospital. With an in-house lab and digital X-ray, we
+          diagnose fast and act faster.
+        </p>
+        <ul>
+          {svc.included.map((i) => <li>{i}</li>)}
+        </ul>
+
+        <h2>Common reasons to seek emergency care</h2>
+        <ul>
+          {svc.sections.find((s) => s.list)?.list?.map((li) => <li>{li}</li>)}
+        </ul>
+
+        <h2>Walk in or call ahead</h2>
+        <p>
+          You never need an appointment for an emergency — walk in. If you can,
+          call <a href={site.phone.href} data-cta="call">{site.phone.display}</a> on
+          your way so our team is ready the moment you arrive. Not sure whether it’s
+          an emergency? Our <a href="/urgent-care/">urgent care</a> team can help,
+          or <a href="/contact-us/">contact us</a> with questions.
+        </p>
+
+        <!-- After-hours section. Per clinic decision the verified 24-hour ER
+             referral list is pending; do NOT invent ER names/phone numbers.
+             TODO: add nearest 24-hour emergency hospitals (name + phone) once
+             confirmed by the clinic. -->
+        <div class="callout">
+          <h2 style="margin-top:0">After hours</h2>
+          <p>
+            Shiland is not a 24-hour hospital and does not provide overnight care.
+            If your pet has an emergency when we’re closed, please go to a
+            dedicated 24-hour veterinary emergency hospital. If you’re unsure where
+            to go, call us at <a href={site.phone.href} data-cta="call">{site.phone.display}</a> —
+            our voicemail and team can help direct you to the nearest overnight ER.
+          </p>
+        </div>
+      </div>
+
+      <aside>
+        <div class="side-card">
+          <h3>Pet emergency?</h3>
+          <p>Call us on your way in so we can prepare. Walk-ins welcome during open hours.</p>
+          <div data-live-actions>
+            <a class="btn btn-call" href={site.phone.href} data-cta="call">
+              <Icon name="phone" size={16} class="i" />Call {site.phone.display}
+            </a>
+            <a class="btn btn-ghost" href={booking.href} data-cta="book" target={booking.external ? '_blank' : undefined} rel={booking.external ? 'noopener' : undefined}>Book appointment</a>
+          </div>
+          <p style="margin-top:16px;font-size:.9rem"><a href="/urgent-care/">Urgent care →</a></p>
+          <p style="font-size:.9rem"><a href="/contact-us/">Contact &amp; directions →</a></p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <FinalCTA showStatus={false} />
+</BaseLayout>
+
+<style>
+  .hours-block {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 20px 24px;
+    background: #f6f8f7;
+    margin-bottom: 28px;
+  }
+  .hours-inline {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 4px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 4px 20px;
+  }
+  .hours-inline li {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dotted var(--line);
+    padding: 4px 0;
+  }
+  .hours-inline li span:first-child { font-weight: 600; }
+  .callout {
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--honey, #f36621);
+    border-radius: 12px;
+    padding: 16px 20px;
+    background: #fff;
+    margin-top: 24px;
+  }
+</style>

@@ -1,0 +1,120 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+import FinalCTA from '@components/FinalCTA.astro';
+import { site, services, booking } from '@data/site';
+import { breadcrumb } from '../../lib/schema';
+
+const path = '/services/';
+const title = 'Veterinary Services in Rock Hill, SC | Shiland Animal Hospital';
+const description =
+  'Full-service veterinary care in Rock Hill, SC — wellness exams, vaccines, dentistry, surgery, urgent & emergency care, and more. Open 7 days a week, walk-ins welcome.';
+
+const schema = [
+  breadcrumb([
+    { name: 'Home', path: '/' },
+    { name: 'Services', path },
+  ]),
+];
+
+const linkFor = (s: (typeof services)[number]) => s.href ?? `/${s.slug}/`;
+---
+<BaseLayout title={title} description={description} path={path} schema={schema}>
+  <div class="wrap">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li aria-current="page">Services</li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <h1>Full-service veterinary care in Rock Hill</h1>
+      <p class="lede">
+        From first puppy shots to senior care, dentistry, and same-day emergency
+        surgery — comprehensive medicine for every stage of your cat or dog’s
+        life, all under one roof. Open 7 days a week with walk-ins welcome.
+      </p>
+    </div>
+  </section>
+
+  <section style="padding-top:32px">
+    <div class="wrap">
+      <div class="svc-cards">
+        {services.map((s) => (
+          <a class="svc-card" href={linkFor(s)}>
+            <span class="s-ic"><Icon name={s.icon} size={22} /></span>
+            <h2>{s.title}</h2>
+            <p>{s.intro.split('. ')[0]}.</p>
+            <span class="svc-card-link">{s.h1} <span class="arr">→</span></span>
+          </a>
+        ))}
+      </div>
+
+      <div class="svc-foot" style="margin-top:36px">
+        <span>Not sure what your pet needs? We’ll help you figure it out.</span>
+        <div class="hero-actions" data-live-actions>
+          <a class="btn btn-call" href={site.phone.href} data-cta="call">
+            <Icon name="phone" size={16} class="i" />Call {site.phone.display}
+          </a>
+          <a class="btn btn-ghost" href={booking.href} data-cta="book" target={booking.external ? '_blank' : undefined} rel={booking.external ? 'noopener' : undefined}>Book appointment</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FinalCTA />
+</BaseLayout>
+
+<style>
+  .svc-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
+  }
+  .svc-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: #fff;
+    text-decoration: none;
+    color: var(--ink, #1c2b27);
+    transition: box-shadow 0.15s, border-color 0.15s, transform 0.05s;
+  }
+  .svc-card:hover {
+    border-color: var(--pine, #15594b);
+    box-shadow: 0 10px 30px rgba(21, 89, 75, 0.08);
+  }
+  .svc-card .s-ic {
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #eef4f1;
+    color: var(--pine, #15594b);
+  }
+  .svc-card h2 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.2rem;
+    margin: 6px 0 0;
+  }
+  .svc-card p {
+    color: var(--muted, #5f726c);
+    font-size: 0.95rem;
+    margin: 0;
+    flex: 1;
+  }
+  .svc-card-link {
+    color: var(--pine, #15594b);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-top: 6px;
+  }
+</style>

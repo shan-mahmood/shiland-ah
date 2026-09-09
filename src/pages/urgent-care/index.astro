@@ -1,0 +1,146 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+import FinalCTA from '@components/FinalCTA.astro';
+import { site, services, booking, hoursDisplay } from '@data/site';
+import { breadcrumb, service as serviceSchema } from '../../lib/schema';
+
+const path = '/urgent-care/';
+const svc = services.find((s) => s.slug === 'pet-urgent-care-rock-hill-fort-mill')!;
+
+const title = 'Urgent Vet Care in Rock Hill & Fort Mill, SC | Shiland Animal Hospital';
+const description =
+  'Same-day urgent vet care in Rock Hill & Fort Mill, SC. Walk-ins welcome 7 days a week for sudden illness and injury, with an in-house lab and X-ray for fast answers. Call (803) 752-4950.';
+
+const schema = [
+  breadcrumb([
+    { name: 'Home', path: '/' },
+    { name: 'Urgent Care', path },
+  ]),
+  serviceSchema('Urgent Vet Care', description, path),
+];
+---
+<BaseLayout title={title} description={description} path={path} schema={schema}>
+  <div class="wrap">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="/services/">Services</a></li>
+        <li aria-current="page">Urgent Care</li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <h1>Urgent Vet Care in Rock Hill &amp; Fort Mill</h1>
+      <p class="lede">
+        Sudden illness or injury that can’t wait for a regular appointment? Shiland
+        offers same-day urgent care for cats and dogs — <strong>walk-ins welcome, 7
+        days a week</strong>. Call ahead if you can and our team will be ready when
+        you arrive.
+      </p>
+      <div class="hero-actions" data-live-actions style="margin-top:8px">
+        <a class="btn btn-call btn-lg" href={site.phone.href} data-cta="call">
+          <Icon name="phone" size={16} class="i" />Call {site.phone.display}
+        </a>
+        <a class="btn btn-ghost btn-lg" href={booking.href} data-cta="book" target={booking.external ? '_blank' : undefined} rel={booking.external ? 'noopener' : undefined}>Book appointment</a>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:28px">
+    <div class="wrap split">
+      <div class="prose">
+        <!-- Hours up top: urgent visitors need to know if we're open now. -->
+        <div class="hours-block">
+          <h2 style="margin-top:0">Open 7 days a week</h2>
+          <ul class="hours-inline">
+            {hoursDisplay.map((h) => (
+              <li><span>{h.day}</span><span>{h.hours}</span></li>
+            ))}
+          </ul>
+          <p class="side-note" id="finalStatus">Checking today’s hours…</p>
+        </div>
+
+        <h2>When to come in for urgent care</h2>
+        <p>{svc.intro}</p>
+        <ul>
+          {svc.sections[0]?.list?.map((li) => <li>{li}</li>)}
+        </ul>
+
+        <h2>What’s included</h2>
+        <ul>
+          {svc.included.map((i) => <li>{i}</li>)}
+        </ul>
+
+        <h2>Fast answers, close to home</h2>
+        <p>
+          With an in-house lab and digital X-ray, we diagnose quickly and start
+          treatment the same visit — so you’re not driving to Charlotte and waiting
+          hours in an ER for problems we can handle right here in Rock Hill.
+        </p>
+
+        <div class="callout">
+          <h3 style="margin-top:0">Is it an emergency?</h3>
+          <p>
+            For serious emergencies — trauma, difficulty breathing, suspected
+            poisoning, or collapse — see our <a href="/pet-emergency-care-rock-hill-fort-mill/">emergency
+            care page</a> and call us on your way in. Questions about a visit?
+            <a href="/contact-us/">Contact us</a>.
+          </p>
+        </div>
+      </div>
+
+      <aside>
+        <div class="side-card">
+          <h3>Come in or call ahead</h3>
+          <p>Walk-ins are always welcome. A quick call lets our team prepare before you arrive.</p>
+          <div data-live-actions>
+            <a class="btn btn-call" href={site.phone.href} data-cta="call">
+              <Icon name="phone" size={16} class="i" />Call {site.phone.display}
+            </a>
+            <a class="btn btn-ghost" href={booking.href} data-cta="book" target={booking.external ? '_blank' : undefined} rel={booking.external ? 'noopener' : undefined}>Book appointment</a>
+          </div>
+          <p style="margin-top:16px;font-size:.9rem"><a href="/pet-emergency-care-rock-hill-fort-mill/">Emergency care →</a></p>
+          <p style="font-size:.9rem"><a href="/contact-us/">Contact &amp; directions →</a></p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <FinalCTA showStatus={false} />
+</BaseLayout>
+
+<style>
+  .hours-block {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 20px 24px;
+    background: #f6f8f7;
+    margin-bottom: 28px;
+  }
+  .hours-inline {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 4px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 4px 20px;
+  }
+  .hours-inline li {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dotted var(--line);
+    padding: 4px 0;
+  }
+  .hours-inline li span:first-child { font-weight: 600; }
+  .callout {
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--honey, #f36621);
+    border-radius: 12px;
+    padding: 16px 20px;
+    background: #fff;
+    margin-top: 24px;
+  }
+</style>

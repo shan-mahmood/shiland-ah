@@ -26,7 +26,7 @@ export function localBusiness() {
     geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng },
     areaServed: site.areaServedSchema,
     openingHoursSpecification: [
-      { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Thursday', 'Friday'], opens: '08:00', closes: '19:00' },
+      { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '08:00', closes: '19:00' },
       { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Saturday', opens: '09:00', closes: '20:00' },
       { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Sunday', opens: '10:00', closes: '20:00' },
     ],
@@ -35,7 +35,7 @@ export function localBusiness() {
       ratingValue: site.rating.value,
       reviewCount: String(site.rating.count),
     },
-    sameAs: [site.links.facebook, site.links.instagram],
+    sameAs: [site.links.googleReview, site.links.facebook, site.links.instagram],
   };
 }
 
