@@ -1,9 +1,15 @@
 ---
+/**
+ * Emergency vet page. URL is fixed (ranks ~10 for "emergency vet rock hill sc").
+ * Targets: emergency vet rock hill sc, emergency vet near me, emergency vet fort mill sc,
+ * 24/7 emergency hospital rock hill sc (we rank by answering it honestly: not overnight).
+ * Copy rule: never claim 24/7 or overnight care. Emergency care is "during open hours".
+ */
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Icon from '@components/Icon.astro';
 import FinalCTA from '@components/FinalCTA.astro';
 import { site, services, booking, hoursDisplay } from '@data/site';
-import { breadcrumb, service as serviceSchema } from '../../lib/schema';
+import { breadcrumb, service as serviceSchema, faqPage } from '../../lib/schema';
 
 const path = '/pet-emergency-care-rock-hill-fort-mill/';
 const svc = services.find((s) => s.slug === 'pet-emergency-care-rock-hill-fort-mill')!;
@@ -11,13 +17,77 @@ const svc = services.find((s) => s.slug === 'pet-emergency-care-rock-hill-fort-m
 const title = svc.metaTitle;
 const description = svc.metaDescription;
 
+const comeInNow = [
+  'Trouble breathing, choking, or blue or pale gums',
+  'Collapse, severe weakness, or unable to stand',
+  'A seizure, or more than one seizure in a day',
+  'Ate something toxic: chocolate, xylitol gum, grapes, rat bait, antifreeze, medications, lilies (cats)',
+  'Bloated, hard belly with retching and nothing coming up',
+  'Hit by a car, a fall, a dog fight, or any deep wound',
+  'Male cat straining to urinate with little or nothing coming out',
+  'Heavy bleeding that does not stop with pressure',
+  'Eye injury, sudden facial swelling, or hives',
+  'Trouble giving birth, or more than two hours between puppies or kittens',
+  'Heatstroke: heavy panting, drooling, or vomiting after time in the heat',
+  'Vomiting or diarrhea with blood, or repeated vomiting that will not stop',
+];
+
+const onSite = [
+  {
+    h: 'Same-day emergency surgery',
+    p: 'Foreign-body removal, exploratory surgery, laceration and trauma repair, pyometra, C-sections, and other urgent procedures performed on-site by our veterinarians during open hours.',
+  },
+  {
+    h: 'Digital X-ray and in-house lab',
+    p: 'Bloodwork, urinalysis, and X-rays run here while you wait, so treatment starts the same visit instead of days later.',
+  },
+  {
+    h: 'Stabilization and IV fluids',
+    p: 'Oxygen, IV fluids, pain control, and monitoring for pets that arrive in distress.',
+  },
+  {
+    h: 'Walk-ins, 7 days a week',
+    p: 'No appointment needed for an emergency. Call on your way so the team can have a room and a doctor ready.',
+  },
+];
+
+const nearby = ['Fort Mill', 'Tega Cay', 'Lake Wylie', 'York', 'Clover', 'Indian Land', 'Lancaster', 'Chester', 'Catawba'];
+
+const faqs = [
+  {
+    q: 'Are you a 24-hour emergency vet?',
+    a: 'No. Shiland Animal Hospital provides emergency and urgent care during open hours, 7 days a week, with evening hours until 7 PM on weekdays and 8 PM on weekends. We do not provide overnight care. If your pet has an emergency after hours, call us and our voicemail will direct you to the nearest overnight ER.',
+  },
+  {
+    q: 'Do I need an appointment for an emergency?',
+    a: `No. Walk-ins are welcome for emergencies and urgent problems. If you can, call ${site.phone.display} on your way so we can have a room and a doctor ready when you arrive.`,
+  },
+  {
+    q: 'Are you open on Sunday?',
+    a: 'Yes. We are open Sunday 10 AM to 8 PM and Saturday 9 AM to 8 PM, in addition to weekday hours of 8 AM to 7 PM.',
+  },
+  {
+    q: 'How much does an emergency vet visit cost?',
+    a: 'Every case is different. You will get an itemized estimate before any treatment beyond the exam, and payment plans are available. Our exam fees are typically well below what a dedicated overnight emergency hospital charges.',
+  },
+  {
+    q: 'Do you treat cats as well as dogs?',
+    a: 'Yes. We provide emergency and urgent care for both dogs and cats.',
+  },
+  {
+    q: 'What should I bring?',
+    a: 'Any medication or packaging your pet may have eaten, your pet’s vaccine or medical records if you have them, and a towel or carrier for transport. Keep your pet warm and as calm as possible on the way in.',
+  },
+];
+
 const schema = [
   breadcrumb([
     { name: 'Home', path: '/' },
     { name: 'Services', path: '/services/' },
-    { name: 'Emergency Care', path },
+    { name: 'Emergency Vet', path },
   ]),
   serviceSchema('Emergency Vet Care', description, path),
+  faqPage(faqs),
 ];
 ---
 <BaseLayout title={title} description={description} path={path} schema={schema}>
@@ -26,25 +96,26 @@ const schema = [
       <ol>
         <li><a href="/">Home</a></li>
         <li><a href="/services/">Services</a></li>
-        <li aria-current="page">Emergency Care</li>
+        <li aria-current="page">Emergency Vet</li>
       </ol>
     </nav>
   </div>
 
   <section class="page-hero">
     <div class="wrap">
+      <span class="kicker">Open 7 days a week, evenings included</span>
       <h1>{svc.h1}</h1>
       <p class="lede">
-        Shiland provides urgent and same-day emergency care — including emergency
-        surgery — for cats and dogs <strong>during our open hours, 7 days a
-        week</strong>. <strong>Walk-ins are welcome.</strong> If your pet is in
-        distress, call us on your way in so our team can prepare.
+        If your dog or cat is hurt or suddenly very sick, come to Shiland Animal
+        Hospital now. We see emergencies the same day <strong>during open hours,
+        7 days a week</strong>, with surgery, X-ray, and lab on-site.
+        <strong>Walk-ins are welcome.</strong> Call on your way so we can be ready.
       </p>
       <div class="hero-actions" data-live-actions style="margin-top:8px">
         <a class="btn btn-call btn-lg" href={site.phone.href} data-cta="call">
           <Icon name="phone" size={16} class="i" />Call {site.phone.display}
         </a>
-        <a class="btn btn-ghost btn-lg" href="/urgent-care/">Urgent care</a>
+        <a class="btn btn-ghost btn-lg" href={site.links.directions} target="_blank" rel="noopener" data-cta="directions">Get directions</a>
       </div>
     </div>
   </section>
@@ -52,7 +123,7 @@ const schema = [
   <section style="padding-top:28px">
     <div class="wrap split">
       <div class="prose">
-        <!-- Hours at the top — an emergency visitor needs to know if we're open now. -->
+        <!-- Hours first: an emergency visitor needs to know if we're open right now. -->
         <div class="hours-block">
           <h2 style="margin-top:0">Our hours (open 7 days a week)</h2>
           <ul class="hours-inline">
@@ -62,50 +133,77 @@ const schema = [
           </ul>
           <p class="side-note" id="finalStatus">Checking today’s hours…</p>
           <p style="margin:8px 0 0;font-size:.9rem;color:var(--muted)">
-            We treat emergencies during open hours and do not provide overnight
-            (24-hour) care — see “After hours” below.
+            Not an overnight hospital. After hours, call us and our voicemail will
+            direct you to the nearest 24-hour ER.
           </p>
         </div>
 
-        <h2>Same-day emergency surgery, on-site</h2>
-        <p>
-          Because we’re equipped for surgery in-house — including exploratory
-          surgery, foreign-body removal, and more — many emergencies can be
-          treated right here in Rock Hill during our open hours instead of a long
-          drive to a referral hospital. With an in-house lab and digital X-ray, we
-          diagnose fast and act faster.
-        </p>
-        <ul>
-          {svc.included.map((i) => <li>{i}</li>)}
+        <h2>Come in right away if your pet has any of these</h2>
+        <p>Do not wait to see if it gets better. These can turn life-threatening within hours.</p>
+        <ul class="two-col">
+          {comeInNow.map((s) => <li>{s}</li>)}
         </ul>
-
-        <h2>Common reasons to seek emergency care</h2>
-        <ul>
-          {svc.sections.find((s) => s.list)?.list?.map((li) => <li>{li}</li>)}
-        </ul>
-
-        <h2>Walk in or call ahead</h2>
         <p>
-          You never need an appointment for an emergency — walk in. If you can,
-          call <a href={site.phone.href} data-cta="call">{site.phone.display}</a> on
-          your way so our team is ready the moment you arrive. Not sure whether it’s
-          an emergency? Our <a href="/urgent-care/">urgent care</a> team can help,
-          or <a href="/contact-us/">contact us</a> with questions.
+          Not sure if it’s an emergency? Call <a href={site.phone.href} data-cta="call">{site.phone.display}</a>.
+          A team member will tell you whether to come in now or book an
+          <a href="/urgent-care/">urgent care visit</a>.
         </p>
 
-        <!-- After-hours section. Per clinic decision the verified 24-hour ER
-             referral list is pending; do NOT invent ER names/phone numbers.
-             TODO: add nearest 24-hour emergency hospitals (name + phone) once
-             confirmed by the clinic. -->
+        <h2>Emergency care we provide on-site in Rock Hill</h2>
+        <div class="onsite-grid">
+          {onSite.map((c) => (
+            <article class="onsite-card">
+              <h3>{c.h}</h3>
+              <p>{c.p}</p>
+            </article>
+          ))}
+        </div>
+        <p>
+          Pets that need overnight monitoring after stabilization are transferred
+          to a 24-hour hospital, and we send your records with you.
+        </p>
+
+        <h2>Why Rock Hill pet owners come here first</h2>
+        <p>
+          A dedicated overnight ER is the right place at 2 AM. During the day and
+          evening, most emergencies can be handled here, close to home, by a doctor
+          you can see again for follow-up, at a fraction of the cost of a specialty ER.
+        </p>
+        <ul>
+          <li>Rated {site.rating.value} stars by Rock Hill pet owners on Google. <a href="/reviews/">Read reviews</a></li>
+          <li>Itemized estimate before treatment, and <a href="/payment-plans/">payment plans</a> available</li>
+          <li>Full-service hospital, so follow-up care happens in one place</li>
+        </ul>
+
+        <!-- After-hours section. The verified 24-hour ER referral list is pending;
+             do NOT invent ER names or phone numbers.
+             TODO: add the 2 or 3 nearest 24-hour emergency hospitals (name, city,
+             phone, drive time from Rock Hill) once confirmed by the clinic. -->
         <div class="callout">
-          <h2 style="margin-top:0">After hours</h2>
+          <h2 style="margin-top:0">After hours and overnight emergencies</h2>
           <p>
-            Shiland is not a 24-hour hospital and does not provide overnight care.
-            If your pet has an emergency when we’re closed, please go to a
-            dedicated 24-hour veterinary emergency hospital. If you’re unsure where
-            to go, call us at <a href={site.phone.href} data-cta="call">{site.phone.display}</a> —
-            our voicemail and team can help direct you to the nearest overnight ER.
+            Shiland Animal Hospital is not a 24-hour hospital and does not provide
+            overnight care. If your pet has an emergency outside our hours, call
+            <a href={site.phone.href} data-cta="call">{site.phone.display}</a> and our
+            voicemail will direct you to the nearest overnight ER.
           </p>
+        </div>
+
+        <h2>Emergency vet near Fort Mill, Tega Cay, Lake Wylie, York, and Indian Land</h2>
+        <p>
+          We’re on Celanese Road in Rock Hill, a short drive from {nearby.join(', ')}.
+          If you’re searching for an emergency vet near you in York, Lancaster, or
+          Chester County during the day or evening, we’re usually the closest open option.
+        </p>
+
+        <h2>Emergency vet questions</h2>
+        <div class="faq">
+          {faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
         </div>
       </div>
 
@@ -117,8 +215,9 @@ const schema = [
             <a class="btn btn-call" href={site.phone.href} data-cta="call">
               <Icon name="phone" size={16} class="i" />Call {site.phone.display}
             </a>
-            <a class="btn btn-ghost" href={booking.href} data-cta="book" target={booking.external ? '_blank' : undefined} rel={booking.external ? 'noopener' : undefined}>Book appointment</a>
+            <a class="btn btn-ghost" href={booking.href} data-cta="book" target={booking.external ? '_blank' : undefined} rel={booking.external ? 'noopener' : undefined}>Book a same-day visit</a>
           </div>
+          <p class="side-note">{site.address.streetShort}, {site.address.locality}, {site.address.region} {site.address.postalCode}</p>
           <p style="margin-top:16px;font-size:.9rem"><a href="/urgent-care/">Urgent care →</a></p>
           <p style="font-size:.9rem"><a href="/contact-us/">Contact &amp; directions →</a></p>
         </div>
@@ -151,7 +250,24 @@ const schema = [
     border-bottom: 1px dotted var(--line);
     padding: 4px 0;
   }
+  .hours-inline li::before { content: none; }
   .hours-inline li span:first-child { font-weight: 600; }
+  .two-col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+  .onsite-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .onsite-card {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 18px;
+    background: #fff;
+  }
+  .onsite-card h3 { margin: 0 0 6px; font-size: 1.1rem; }
+  .onsite-card p { margin: 0; font-size: .97rem; }
   .callout {
     border: 1px solid var(--line);
     border-left: 4px solid var(--honey, #f36621);
@@ -160,4 +276,19 @@ const schema = [
     background: #fff;
     margin-top: 24px;
   }
+  .faq details { border-bottom: 1px solid var(--line); padding: 12px 0; }
+  .faq summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--pine-deep);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; color: var(--pine); font-weight: 700; }
+  .faq details[open] summary::after { content: '–'; }
+  .faq details p { margin: 10px 0 0; }
 </style>

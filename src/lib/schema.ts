@@ -65,6 +65,18 @@ export function service(name: string, description: string, path: string) {
   };
 }
 
+/** FAQPage node from [{q, a}]. */
+export function faqPage(items: { q: string; a: string }[]) {
+  return {
+    '@type': 'FAQPage',
+    mainEntity: items.map((it) => ({
+      '@type': 'Question',
+      name: it.q,
+      acceptedAnswer: { '@type': 'Answer', text: it.a },
+    })),
+  };
+}
+
 /** Wrap nodes into a single @graph document. */
 export function graph(nodes: object[]) {
   return { '@context': 'https://schema.org', '@graph': nodes };
