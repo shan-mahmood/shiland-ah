@@ -618,11 +618,11 @@ export const services: Service[] = [
     title: 'Emergency Care',
     href: '/pet-emergency-care-rock-hill-fort-mill/',
     customPage: true,
-    h1: 'Emergency Veterinarian in Rock Hill',
+    h1: 'Emergency Vet in Rock Hill, SC: Same-Day Care, Walk-Ins Welcome',
     icon: 'bolt',
-    metaTitle: 'Emergency Veterinarian Rock Hill | Shiland Animal Hospital',
+    metaTitle: 'Emergency Vet Rock Hill, SC | Same-Day, Walk-Ins Welcome | Shiland Animal Hospital',
     metaDescription:
-      'Shiland Animal Hospital is an emergency vet in Rock Hill, SC. Treating cats and dogs 7 days a week and evenings. No overnight. Walk-ins welcome. (803) 752-4950',
+      'Emergency vet in Rock Hill, SC. Same-day emergency care for dogs and cats 7 days a week with evening hours. On-site surgery, X-ray and lab. Not overnight. Walk in or call (803) 752-4950.',
     intro:
       'You never expect an emergency to happen to your pet — but emergencies can happen at any time. Shiland Animal Hospital provides life-saving care for cats and dogs in distress, seven days a week including evenings.',
     included: [
