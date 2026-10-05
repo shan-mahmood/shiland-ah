@@ -1,0 +1,55 @@
+---
+import { Picture } from 'astro:assets';
+import { services } from '@data/site';
+import { monthLabel, type PatientStory } from '@data/patients';
+
+interface Props {
+  patient: PatientStory;
+  /** Heading level for the pet's name. */
+  as?: 'h2' | 'h3';
+  /** Link the card to its first service page. Off on service pages (it would point to itself). */
+  showLink?: boolean;
+  /** Photo, tag and name only (homepage row). */
+  compact?: boolean;
+  /** Load the photo eagerly (first card above the fold). */
+  eager?: boolean;
+  /** Responsive sizes hint for the photo. */
+  sizes?: string;
+}
+
+const {
+  patient: p,
+  as: Name = 'h3',
+  showLink = true,
+  compact = false,
+  eager = false,
+  sizes = '(max-width: 560px) 92vw, (max-width: 960px) 46vw, 360px',
+} = Astro.props;
+
+const svc = p.services[0] ? services.find((s) => s.slug === p.services[0]) : undefined;
+const svcHref = svc ? svc.href ?? `/${svc.slug}/` : undefined;
+---
+<article class:list={['pt-card', { 'pt-card--compact': compact }]} id={compact ? undefined : p.id}>
+  <Picture
+    src={p.image}
+    alt={p.alt}
+    widths={[320, 480, 720, 960]}
+    sizes={sizes}
+    formats={['webp']}
+    fallbackFormat="jpg"
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+    class="pt-img"
+  />
+  <div class="pt-body">
+    <div class="pt-meta">
+      <span class="pt-visit">{p.visit}</span>
+      {!compact && <time datetime={p.date}>{monthLabel(p.date)}</time>}
+    </div>
+    <Name class="pt-name">{compact ? <a href={`/patients/#${p.id}`}>{p.name}</a> : p.name}</Name>
+    {!compact && <p>{p.story}</p>}
+    {!compact && showLink && svc && svcHref && (
+      <a class="pt-link" href={svcHref}>{svc.title} in Rock Hill <span aria-hidden="true">→</span></a>
+    )}
+  </div>
+</article>

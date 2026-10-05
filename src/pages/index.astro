@@ -2,11 +2,16 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Icon from '@components/Icon.astro';
 import FinalCTA from '@components/FinalCTA.astro';
+import PatientCard from '@components/PatientCard.astro';
+import { patientsByDate } from '@data/patients';
 import { site, services, booking } from '@data/site';
 
 const title = 'Shiland Animal Hospital | Veterinarian in Rock Hill, SC — Walk-ins & Same-Day Care';
 const description =
   'Owner-operated veterinarian in Rock Hill, SC. Open 7 days a week including evenings and weekends. Walk-ins welcome, same-day appointments, in-house emergency surgery. Call (803) 752-4950.';
+
+// Newest patient stories for the homepage row.
+const recentPatients = patientsByDate.slice(0, 4);
 ---
 <BaseLayout title={title} description={description} path="/">
   <link slot="head" rel="preload" as="image" href="/hero-photo.webp" fetchpriority="high" />
@@ -258,6 +263,26 @@ const description =
       </div>
     </div>
   </section>
+
+  <!-- ============ RECENT PATIENTS ============ -->
+  {recentPatients.length > 0 && (
+    <section style="padding-top:0" id="patients">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="kicker">Meet our patients</span>
+          <h2>A few of our recent patients.</h2>
+        </div>
+        <div class="pt-grid pt-grid--home">
+          {recentPatients.map((p) => (
+            <PatientCard patient={p} compact sizes="(max-width: 960px) 46vw, 270px" />
+          ))}
+        </div>
+        <div class="rev-cta">
+          <a class="btn btn-ghost btn-lg" href="/patients/">See all patient stories</a>
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- ============ PAYMENT ============ -->
   <section style="padding-top:0">

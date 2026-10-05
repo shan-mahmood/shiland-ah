@@ -1,0 +1,92 @@
+---
+import { getImage } from 'astro:assets';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+import FinalCTA from '@components/FinalCTA.astro';
+import PatientCard from '@components/PatientCard.astro';
+import { services } from '@data/site';
+import { patientsByDate } from '@data/patients';
+import { breadcrumb, imageGallery } from '../../lib/schema';
+
+const path = '/patients/';
+const title = 'Meet Our Patients | Rock Hill Vet | Shiland Animal Hospital';
+const description =
+  'Real dogs, cats, puppies and kittens we care for in Rock Hill, SC, shared with their families’ permission. Vaccines, spays, checkups and more, 7 days a week.';
+
+const list = patientsByDate;
+
+// Full size JPGs for structured data and the social share image.
+const jpgs = await Promise.all(
+  list.map((p) => getImage({ src: p.image, width: Math.min(1200, p.image.width), format: 'jpg' }))
+);
+
+// Services that appear in these stories, in site order, for internal links.
+const used = new Set(list.flatMap((p) => p.services));
+const related = services.filter((s) => used.has(s.slug));
+
+const schema = [
+  breadcrumb([
+    { name: 'Home', path: '/' },
+    { name: 'Our Patients', path },
+  ]),
+  imageGallery({
+    path,
+    name: 'Meet our Rock Hill patients',
+    description,
+    images: list.map((p, i) => ({
+      url: jpgs[i].src,
+      name: `${p.name}: ${p.visit}`,
+      caption: p.alt,
+      date: p.date,
+    })),
+  }),
+];
+---
+<BaseLayout title={title} description={description} path={path} image={jpgs[0]?.src} schema={schema}>
+  <div class="wrap">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li aria-current="page">Our Patients</li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <h1>Meet our Rock Hill patients</h1>
+      <p class="lede">
+        Real pets from our exam rooms, shared with their families’ permission.
+        Here’s who has been in to see us lately.
+      </p>
+    </div>
+  </section>
+
+  <section style="padding-top:32px">
+    <div class="wrap">
+      <div class="pt-grid">
+        {list.map((p, i) => <PatientCard patient={p} as="h2" eager={i < 3} />)}
+      </div>
+    </div>
+  </section>
+
+  {related.length > 0 && (
+    <section style="padding-top:0">
+      <div class="wrap">
+        <div class="sec-head" style="margin-bottom:8px">
+          <span class="kicker">Related services</span>
+          <h2>The care behind these visits</h2>
+        </div>
+        <div class="related-grid">
+          {related.map((r) => (
+            <a class="related" href={r.href ?? `/${r.slug}/`}>
+              <span class="r-ic"><Icon name={r.icon} size={22} /></span>{r.title}<span class="arr">→</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <FinalCTA />
+</BaseLayout>
