@@ -3,8 +3,8 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
 
-// Canonical production origin. Update if the domain changes at cutover.
-const SITE = 'https://shilandah.com';
+// Canonical production origin. www is the primary host on Vercel (apex 308s to www).
+const SITE = 'https://www.shilandah.com';
 
 export default defineConfig({
   site: SITE,

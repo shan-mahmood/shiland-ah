@@ -53,10 +53,32 @@ const onSite = [
 
 const nearby = ['Fort Mill', 'Tega Cay', 'Lake Wylie', 'York', 'Clover', 'Indian Land', 'Lancaster', 'Chester', 'Catawba'];
 
+/**
+ * Nearest 24/7 emergency hospitals for after-hours referral. Name, address,
+ * phone and 24/7 status checked on each hospital's own website, Oct 15, 2026.
+ * Phone links carry data-no-track so they are not counted as calls to Shiland.
+ */
+const overnightERs = [
+  {
+    name: 'Carolina Veterinary Specialists Rock Hill',
+    street: '760 Addison Ave',
+    city: 'Rock Hill, SC 29730',
+    phone: '(803) 909-8300',
+    tel: 'tel:+18039098300',
+  },
+  {
+    name: 'Carolina Veterinary Specialists Charlotte',
+    street: '2225 Township Rd',
+    city: 'Charlotte, NC 28273',
+    phone: '(704) 504-9608',
+    tel: 'tel:+17045049608',
+  },
+];
+
 const faqs = [
   {
     q: 'Are you a 24-hour emergency vet?',
-    a: 'No. Shiland Animal Hospital provides emergency and urgent care during open hours, 7 days a week, with evening hours until 7 PM on weekdays and 8 PM on weekends. We do not provide overnight care. If your pet has an emergency after hours, call us and our voicemail will direct you to the nearest overnight ER.',
+    a: `We see pet emergencies the same day, 7 days a week: until 7 PM on weekdays and 8 PM on Saturday and Sunday, with surgery, X-ray and lab on-site and no appointment needed. We are not open overnight. After hours, go to a 24-hour emergency hospital: ${overnightERs[0].name}, ${overnightERs[0].phone}, or ${overnightERs[1].name}, ${overnightERs[1].phone}.`,
   },
   {
     q: 'Do I need an appointment for an emergency?',
@@ -133,8 +155,8 @@ const schema = [
           </ul>
           <p class="side-note" id="finalStatus">Checking today’s hours…</p>
           <p style="margin:8px 0 0;font-size:.9rem;color:var(--muted)">
-            Not an overnight hospital. After hours, call us and our voicemail will
-            direct you to the nearest 24-hour ER.
+            Not an overnight hospital. After hours, go to a
+            <a href="#after-hours">24-hour emergency hospital</a>.
           </p>
         </div>
 
@@ -175,17 +197,27 @@ const schema = [
           <li>Full-service hospital, so follow-up care happens in one place</li>
         </ul>
 
-        <!-- After-hours section. The verified 24-hour ER referral list is pending;
-             do NOT invent ER names or phone numbers.
-             TODO: add the 2 or 3 nearest 24-hour emergency hospitals (name, city,
-             phone, drive time from Rock Hill) once confirmed by the clinic. -->
-        <div class="callout">
+        <!-- After-hours section. ER list lives in overnightERs above; do NOT add
+             hospitals without checking name, address, phone and 24/7 status. -->
+        <div class="callout" id="after-hours">
           <h2 style="margin-top:0">After hours and overnight emergencies</h2>
           <p>
             Shiland Animal Hospital is not a 24-hour hospital and does not provide
-            overnight care. If your pet has an emergency outside our hours, call
-            <a href={site.phone.href} data-cta="call">{site.phone.display}</a> and our
-            voicemail will direct you to the nearest overnight ER.
+            overnight care. If your pet has an emergency outside our hours, go to
+            one of these 24-hour emergency hospitals:
+          </p>
+          <ul class="er-list">
+            {overnightERs.map((er) => (
+              <li>
+                <strong>{er.name}</strong><br />
+                {er.street}, {er.city}<br />
+                <a href={er.tel} data-no-track>{er.phone}</a> · Open 24/7
+              </li>
+            ))}
+          </ul>
+          <p style="margin-bottom:0;font-size:.9rem;color:var(--muted)">
+            Call ahead so they can prepare. Once your pet is stable, we are happy
+            to handle follow-up care here.
           </p>
         </div>
 
@@ -276,6 +308,9 @@ const schema = [
     background: #fff;
     margin-top: 24px;
   }
+  .er-list { list-style: none; padding: 0; margin: 4px 0 14px; display: grid; gap: 12px; }
+  .er-list li::before { content: none; }
+  .er-list li { display: block; padding-left: 0; }
   .faq details { border-bottom: 1px solid var(--line); padding: 12px 0; }
   .faq summary {
     cursor: pointer;

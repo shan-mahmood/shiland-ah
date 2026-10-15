@@ -3,4 +3,4 @@ Allow: /
 Disallow: /rate
 Disallow: /api/
 
-Sitemap: https://shilandah.com/sitemap-index.xml
+Sitemap: https://www.shilandah.com/sitemap-index.xml

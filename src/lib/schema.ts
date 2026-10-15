@@ -1,6 +1,6 @@
 import { site } from '@data/site';
 
-const ORIGIN = 'https://shilandah.com';
+const ORIGIN = 'https://www.shilandah.com';
 const BUSINESS_ID = `${ORIGIN}/#business`;
 
 /** Site-wide VeterinaryCare LocalBusiness + AggregateRating node. */
