@@ -23,7 +23,7 @@ interface Props {
 
 const { title, description, path, image = '/hero-photo.jpg', schema = [], noindex = false } = Astro.props;
 
-const ORIGIN = 'https://shilandah.com';
+const ORIGIN = 'https://www.shilandah.com';
 const canonical = `${ORIGIN}${path}`;
 const ogImage = `${ORIGIN}${image}`;
 
@@ -118,7 +118,7 @@ const { gtm } = site.analytics;
       function track(event, params) { window.dataLayer.push(Object.assign({ event: event }, params || {})); }
       document.addEventListener('click', function (e) {
         var t = e.target.closest('a,button');
-        if (!t) return;
+        if (!t || t.hasAttribute('data-no-track')) return;
         var href = t.getAttribute('href') || '';
         if (t.matches('[data-cta="call"]') || href.indexOf('tel:') === 0) track('click_to_call', { link_url: href });
         else if (t.matches('[data-cta="book"]')) track('book_appointment_click', { link_url: href });

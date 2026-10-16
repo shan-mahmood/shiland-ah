@@ -67,3 +67,26 @@ test('robots.txt disallows /rate, not /reviews', async ({ request }) => {
   expect(body).toMatch(/disallow:\s*\/rate/i);
   expect(body).not.toMatch(/disallow:\s*\/reviews/i);
 });
+
+test('/patients/ is indexable with one H1, gallery schema and alt text on every photo', async ({ page }) => {
+  await page.goto('/patients/');
+  await expect(page.locator('h1')).toHaveCount(1);
+  await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+  const canonical = await page.locator('link[rel="canonical"]').getAttribute('href');
+  expect(canonical).toContain('/patients/');
+  const alts = await page.locator('.pt-card img').evaluateAll((els) => els.map((e) => e.getAttribute('alt') || ''));
+  expect(alts.length).toBeGreaterThan(0);
+  for (const alt of alts) expect(alt.length).toBeGreaterThan(20);
+  const ld = await page.locator('script[type="application/ld+json"]').first().textContent();
+  expect(ld).toContain('ImageGallery');
+  expect(ld).toContain('ImageObject');
+});
+
+test('service pages show their tagged patient stories and link to /patients/', async ({ page }) => {
+  await page.goto('/spay-and-neuter-rock-hill-fort-mill/');
+  await expect(page.locator('.pt-strip .pt-card')).not.toHaveCount(0);
+  await expect(page.locator('.pt-strip a[href="/patients/"]')).toBeVisible();
+  // Pages with no tagged stories render no strip.
+  await page.goto('/senior-pet-care-rock-hill-fort-mill/');
+  await expect(page.locator('.pt-strip')).toHaveCount(0);
+});

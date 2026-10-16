@@ -1,0 +1,24 @@
+---
+import PatientCard from './PatientCard.astro';
+import { patientsFor, stripHeading } from '@data/patients';
+
+interface Props {
+  /** Service slug whose tagged stories to show. */
+  slug: string;
+  limit?: number;
+}
+
+const { slug, limit = 4 } = Astro.props;
+const list = patientsFor(slug).slice(0, limit);
+---
+{list.length > 0 && (
+  <div class="pt-strip">
+    <h2>{stripHeading(slug)}</h2>
+    <div class="pt-grid pt-grid--strip">
+      {list.map((p) => (
+        <PatientCard patient={p} showLink={false} sizes="(max-width: 560px) 92vw, 340px" />
+      ))}
+    </div>
+    <p class="pt-more"><a href="/patients/">Meet more of our patients</a></p>
+  </div>
+)}

@@ -1,6 +1,6 @@
 import { site } from '@data/site';
 
-const ORIGIN = 'https://shilandah.com';
+const ORIGIN = 'https://www.shilandah.com';
 const BUSINESS_ID = `${ORIGIN}/#business`;
 
 /** Site-wide VeterinaryCare LocalBusiness + AggregateRating node. */
@@ -80,4 +80,40 @@ export function faqPage(items: { q: string; a: string }[]) {
 /** Wrap nodes into a single @graph document. */
 export function graph(nodes: object[]) {
   return { '@context': 'https://schema.org', '@graph': nodes };
+}
+
+/** ImageGallery page whose main entity is the list of photos (patient stories). */
+export function imageGallery(opts: {
+  path: string;
+  name: string;
+  description: string;
+  images: { url: string; name: string; caption: string; date: string }[];
+}) {
+  const url = `${ORIGIN}${opts.path}`;
+  return {
+    '@type': 'ImageGallery',
+    '@id': `${url}#gallery`,
+    url,
+    name: opts.name,
+    description: opts.description,
+    about: { '@id': BUSINESS_ID },
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: opts.images.length,
+      itemListElement: opts.images.map((img, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        item: {
+          '@type': 'ImageObject',
+          contentUrl: img.url.startsWith('http') ? img.url : `${ORIGIN}${img.url}`,
+          name: img.name,
+          caption: img.caption,
+          uploadDate: img.date,
+          creditText: site.name,
+          creator: { '@id': BUSINESS_ID },
+          copyrightNotice: site.name,
+        },
+      })),
+    },
+  };
 }
