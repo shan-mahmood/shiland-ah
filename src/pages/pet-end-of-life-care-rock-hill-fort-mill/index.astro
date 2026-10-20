@@ -1,0 +1,308 @@
+---
+/**
+ * End-of-life / euthanasia page. URL is fixed (legacy slug, ranks ~20).
+ * Targets: pet euthanasia near me, pet cremation near me, dog euthanasia near me,
+ * end of life services for dogs, put dog to sleep rock hill.
+ *
+ * Facts used here are checked against Shiland's eVet item usage (Jun 1 – Oct 19, 2026):
+ * in-hospital euthanasia, private cremation (ashes returned), communal cremation,
+ * paw print keepsake. No house calls were billed in that window, so this page makes
+ * no home-euthanasia claim. Do NOT add prices, a crematorium name, return times or a
+ * "comfort room" without confirming with the clinic.
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+import FinalCTA from '@components/FinalCTA.astro';
+import { site, services, hoursDisplay } from '@data/site';
+import { breadcrumb, service as serviceSchema, faqPage } from '../../lib/schema';
+
+const path = '/pet-end-of-life-care-rock-hill-fort-mill/';
+const svc = services.find((s) => s.slug === 'pet-end-of-life-care-rock-hill-fort-mill')!;
+
+const title = svc.metaTitle;
+const description = svc.metaDescription;
+
+const signs = [
+  'Not eating, or eating far less, for more than a day or two',
+  'Pain that medication no longer controls',
+  'Trouble breathing, or breathing hard while resting',
+  'Unable to stand, walk or get comfortable without help',
+  'Frequent accidents, vomiting or diarrhea',
+  'No interest in family, food, toys or favorite places',
+  'More bad days than good ones',
+];
+
+const steps = [
+  {
+    h: 'Call us to schedule',
+    p: 'We will find a time that works for your family. You can ask questions and talk through aftercare choices ahead of time, so there is less to decide on the day.',
+  },
+  {
+    h: 'A sedative first',
+    p: 'Your pet receives a sedative so they are relaxed, calm and comfortable before anything else happens.',
+  },
+  {
+    h: 'A gentle, final injection',
+    p: 'Once your pet is deeply sedated, the veterinarian gives the final injection. It works quickly and peacefully, and your pet does not feel pain.',
+  },
+  {
+    h: 'Time to say goodbye',
+    p: 'You are welcome to stay with your pet, or a member of our team can be with them privately, whatever brings you comfort. Take the time you need.',
+  },
+];
+
+const aftercare = [
+  {
+    h: 'Private cremation',
+    p: 'Your pet is cremated individually and their ashes are returned to you.',
+  },
+  {
+    h: 'Communal cremation',
+    p: 'Your pet is cremated together with other pets. Ashes are not returned.',
+  },
+  {
+    h: 'Paw print keepsake',
+    p: 'A print of your pet’s paw that you can take home and keep.',
+  },
+];
+
+const hoursSentence = 'We are open 7 days a week: 8 AM to 7 PM on weekdays, 9 AM to 8 PM on Saturday and 10 AM to 8 PM on Sunday.';
+
+const faqs = [
+  {
+    q: 'How do I know if it’s time to put my dog or cat to sleep?',
+    a: 'Watch for pain that medication no longer controls, refusing food, trouble breathing, being unable to stand or get comfortable, and more bad days than good. A quality-of-life exam with one of our veterinarians can help you decide with confidence.',
+  },
+  {
+    q: 'Does euthanasia hurt my pet?',
+    a: 'No. Your pet first receives a sedative so they are relaxed and comfortable. The final injection is given only once they are deeply sedated, and it works quickly and peacefully.',
+  },
+  {
+    q: 'Can I stay with my pet?',
+    a: 'Yes. Many families choose to stay, and you are welcome to. If you would rather not, a member of our team will be with your pet.',
+  },
+  {
+    q: 'What are my cremation options?',
+    a: 'Private cremation, where your pet is cremated individually and the ashes are returned to you, or communal cremation, where pets are cremated together and ashes are not returned. A paw print keepsake is also available.',
+  },
+  {
+    q: 'How much does pet euthanasia cost?',
+    a: `The cost depends on your pet’s size and the aftercare you choose. Call us at ${site.phone.display} and we will walk you through it before your visit.`,
+  },
+  {
+    q: 'Are you open on weekends?',
+    a: `Yes. ${hoursSentence} Call us to schedule a time that works for your family.`,
+  },
+];
+
+const related = [
+  { href: '/senior-pet-care-rock-hill-fort-mill/', label: 'Senior pet care' },
+  { href: '/urgent-care/', label: 'Urgent care' },
+  { href: '/pet-emergency-care-rock-hill-fort-mill/', label: 'Emergency vet' },
+];
+
+const schema = [
+  breadcrumb([
+    { name: 'Home', path: '/' },
+    { name: 'Services', path: '/services/' },
+    { name: 'End-of-Life Care', path },
+  ]),
+  serviceSchema('Pet Euthanasia and End-of-Life Care', description, path),
+  faqPage(faqs),
+];
+---
+<BaseLayout title={title} description={description} path={path} schema={schema} hidePromo>
+  <div class="wrap">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="/services/">Services</a></li>
+        <li aria-current="page">End-of-Life Care</li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="kicker">Compassionate care for cats and dogs</span>
+      <h1>{svc.h1}</h1>
+      <p class="lede">
+        Saying goodbye to a pet is one of the hardest decisions a family makes.
+        Our team in Rock Hill will help you understand your pet’s quality of life,
+        keep them comfortable for as long as that is possible, and, when the time
+        comes, make their passing gentle and peaceful. Call us to talk it through.
+        There is no pressure and no rush.
+      </p>
+      <div class="hero-actions" style="margin-top:8px">
+        <a class="btn btn-call btn-lg" href={site.phone.href} data-cta="call">
+          <Icon name="phone" size={16} class="i" />Call {site.phone.display}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:28px">
+    <div class="wrap split">
+      <div class="prose">
+        <h2 style="margin-top:0">How do you know when it’s time?</h2>
+        <p>There is rarely one clear moment. These signs suggest your pet’s quality of life is slipping:</p>
+        <ul class="eol-list">
+          {signs.map((s) => <li>{s}</li>)}
+        </ul>
+        <p>
+          A <strong>quality-of-life exam</strong> gives you an honest picture. One of
+          our veterinarians will examine your pet, talk through what you are seeing at
+          home, and help you decide whether comfort care can give your pet more good
+          days or whether it is kinder to say goodbye.
+        </p>
+
+        <h2>Comfort care and pain management</h2>
+        <p>
+          When your pet still has good days ahead, we focus on keeping them
+          comfortable, with pain control and other treatments matched to their
+          condition. We will recheck them as things change and tell you honestly when
+          comfort care is no longer enough. Older pets often benefit from regular
+          <a href="/senior-pet-care-rock-hill-fort-mill/">senior pet care</a> long
+          before this point.
+        </p>
+
+        <h2>What happens at the appointment</h2>
+        <ol class="eol-steps">
+          {steps.map((s) => (
+            <li>
+              <h3>{s.h}</h3>
+              <p>{s.p}</p>
+            </li>
+          ))}
+        </ol>
+
+        <h2>Aftercare: cremation and keepsakes</h2>
+        <p>Cremation is arranged through a trusted crematorium partner. You can choose:</p>
+        <div class="eol-grid">
+          {aftercare.map((a) => (
+            <article class="eol-card">
+              <h3>{a.h}</h3>
+              <p>{a.p}</p>
+            </article>
+          ))}
+        </div>
+        <p>We are happy to explain each option and its cost ahead of time, so nothing comes as a surprise.</p>
+
+        <div class="callout">
+          <h2 style="margin-top:0">If your pet is suffering after hours</h2>
+          <p style="margin-bottom:0">
+            {hoursSentence} If your pet is in distress overnight, a 24-hour emergency
+            hospital can help. See our list of
+            <a href="/pet-emergency-care-rock-hill-fort-mill/#after-hours">nearby 24/7 emergency hospitals</a>.
+          </p>
+        </div>
+
+        <h2>Caring for yourself and your family</h2>
+        <p>
+          Losing a pet is losing a member of the family. Grief can come in waves and
+          look different for each person in your home, including children. Give
+          yourself time, and lean on the people who knew your pet. If you have
+          questions after your visit, call us. We are glad to help.
+        </p>
+
+        <h2>Pet euthanasia questions</h2>
+        <div class="faq">
+          {faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+
+        <h2>Related services</h2>
+        <div class="related-grid">
+          {related.map((r) => (
+            <a class="related" href={r.href}>
+              {r.label}<span class="arr">→</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <aside>
+        <div class="side-card">
+          <h3>Talk to our team</h3>
+          <p>Call to schedule a quality-of-life exam or an end-of-life appointment, or just to ask a question.</p>
+          <a class="btn btn-call" href={site.phone.href} data-cta="call">
+            <Icon name="phone" size={16} class="i" />Call {site.phone.display}
+          </a>
+          <ul class="hours-mini">
+            {hoursDisplay.map((h) => (
+              <li><span>{h.day}</span><span>{h.hours}</span></li>
+            ))}
+          </ul>
+          <p class="side-note">{site.address.streetShort}, {site.address.locality}, {site.address.region} {site.address.postalCode}</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <FinalCTA
+    heading="We're here when you need us."
+    text="Call to talk through your pet's quality of life, schedule an appointment, or ask about aftercare. There is no pressure and no rush."
+    showStatus={false}
+  />
+</BaseLayout>
+
+<style>
+  .eol-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (max-width: 720px) { .eol-list { grid-template-columns: 1fr; } }
+  .eol-list li::before { content: "•"; color: var(--muted); }
+  .eol-steps { list-style: none; counter-reset: step; padding: 0; margin: 12px 0 8px; display: grid; gap: 14px; }
+  .eol-steps li { counter-increment: step; position: relative; padding-left: 48px; }
+  .eol-steps li::before {
+    content: counter(step);
+    position: absolute; left: 0; top: 2px;
+    width: 32px; height: 32px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--pine, #1f5c4a); color: #fff; font-weight: 700;
+  }
+  .eol-steps h3 { margin: 0 0 4px; font-size: 1.1rem; }
+  .eol-steps p { margin: 0; }
+  .eol-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin: 8px 0 14px;
+  }
+  .eol-card {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 18px;
+    background: #fff;
+  }
+  .eol-card h3 { margin: 0 0 6px; font-size: 1.1rem; }
+  .eol-card p { margin: 0; font-size: .97rem; }
+  .callout {
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--honey, #f36621);
+    border-radius: 12px;
+    padding: 16px 20px;
+    background: #fff;
+    margin-top: 24px;
+  }
+  .hours-mini { list-style: none; padding: 0; margin: 14px 0 4px; font-size: .92rem; }
+  .hours-mini li { display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px dotted var(--line); }
+  .hours-mini li::before { content: none; }
+  .faq details { border-bottom: 1px solid var(--line); padding: 12px 0; }
+  .faq summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--pine-deep);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; color: var(--pine); font-weight: 700; }
+  .faq details[open] summary::after { content: '–'; }
+  .faq details p { margin: 10px 0 0; }
+</style>

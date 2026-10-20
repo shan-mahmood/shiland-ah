@@ -19,9 +19,11 @@ interface Props {
   /** Extra JSON-LD graph nodes (breadcrumb, service, etc.). */
   schema?: object[];
   noindex?: boolean;
+  /** Hide the promo ribbon (e.g. on the end-of-life page, where a sale banner is out of place). */
+  hidePromo?: boolean;
 }
 
-const { title, description, path, image = '/hero-photo.jpg', schema = [], noindex = false } = Astro.props;
+const { title, description, path, image = '/hero-photo.jpg', schema = [], noindex = false, hidePromo = false } = Astro.props;
 
 const ORIGIN = 'https://www.shilandah.com';
 const canonical = `${ORIGIN}${path}`;
@@ -101,7 +103,7 @@ const { gtm } = site.analytics;
     <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${gtm}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   )}
   <a class="skip-link" href="#main">Skip to content</a>
-  <PromoRibbon />
+  {!hidePromo && <PromoRibbon />}
   <TopBar />
   <Header />
   <main id="main">

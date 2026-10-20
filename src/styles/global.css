@@ -302,6 +302,7 @@ footer.site a{color:#CBD5E1}
 footer.site a:hover{color:var(--honey)}
 .foot-brand{font-family:'Nunito',sans-serif;font-size:1.35rem;color:#fff;margin-bottom:12px}
 .foot-list{list-style:none;display:flex;flex-direction:column;gap:9px}
+.foot-list a{overflow-wrap:anywhere}
 .foot-hours{list-style:none;display:flex;flex-direction:column;gap:6px;font-size:.9rem}
 .foot-hours li{display:flex;justify-content:space-between;gap:18px}
 .foot-hours .cl{color:var(--urgent)}
@@ -317,7 +318,7 @@ footer.site a:hover{color:var(--honey)}
 @media(max-width:960px){
   .hero-grid,.doc-grid,.urgent-grid,.area-grid{grid-template-columns:1fr;gap:40px}
   .doc-photo{max-width:420px}
-  .svc-grid{grid-template-columns:repeat(2,1fr)}
+  .svc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .pillars,.rev-grid{grid-template-columns:1fr}
   nav.links,.nav-cta .btn-ghost{display:none}
   .menu-toggle{display:block}
@@ -327,7 +328,7 @@ footer.site a:hover{color:var(--honey)}
 @media(max-width:560px){
   section{padding:60px 0}
   .cap-list{grid-template-columns:1fr}
-  .foot-grid{grid-template-columns:1fr 1fr;gap:28px}
+  .foot-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
   .trust .wrap{gap:16px}
   .hero{padding:40px 0 60px}
   .pay{padding:26px}
