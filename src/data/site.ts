@@ -31,7 +31,7 @@ export const site = {
 
   rating: {
     value: '4.9',
-    count: 173,
+    count: 201,
     label: 'Excellent',
   },
 
@@ -658,11 +658,12 @@ export const services: Service[] = [
   {
     slug: 'pet-end-of-life-care-rock-hill-fort-mill',
     title: 'End-of-Life Care',
-    h1: 'Pet End-of-Life Care in Rock Hill',
+    customPage: true,
+    h1: 'Pet Euthanasia & End-of-Life Care in Rock Hill, SC',
     icon: 'dove',
-    metaTitle: 'Pet Euthanasia Rock Hill, SC | Shiland Animal Hospital',
+    metaTitle: 'Pet Euthanasia & Cremation Rock Hill, SC | Shiland Animal Hospital',
     metaDescription:
-      'Shiland Animal Hospital has end-of-life care for cats and dogs. Hospice, pain management, and euthanasia for Rock Hill pets. Here for their peaceful passing.',
+      'Gentle pet euthanasia in Rock Hill, SC. Sedation first, time to say goodbye, and private or communal cremation with a paw print keepsake. Open 7 days.',
     intro:
       'Saying goodbye to a pet you have loved is never easy. At Shiland Animal Hospital, we understand how difficult it is to say farewell, and we’re here to provide a peaceful ending with dignity for your pet and support for your family.',
     included: [
